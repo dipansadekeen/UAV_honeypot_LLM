@@ -14,7 +14,7 @@ def log_mission_llm_csv(hp, command_id, command_name, params, user_payload, pars
 
     os.makedirs("./logs", exist_ok=True)
 
-    csv_path = "./logs/mission_llm_generation_v2.csv" # v2 updated as we are adding new column
+    csv_path = "./logs/mission_llm_generation.csv"
     file_exists = os.path.exists(csv_path)
 
     llm_call_id = str(uuid.uuid4())

@@ -91,7 +91,7 @@ class LLMHoneypot:
             ("RTL_RETURN_ALT", 15.0,  mavutil.mavlink.MAV_PARAM_TYPE_REAL32),
         ]
         self.param_index = {name: i for i, (name, _, _) in enumerate(self.params)}
-        # ////////// for QGC
+        # QGC
 
 
         self.cmd_transition_rows = load_command_rag_jsonl("./examples/cmd_transition.jsonl") #
