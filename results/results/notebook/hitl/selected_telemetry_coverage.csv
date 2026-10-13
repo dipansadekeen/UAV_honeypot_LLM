@@ -1,0 +1,10 @@
+Operation,Available_Cases,Selected_Cases,Status
+ARM,1,1,selected
+DISARM,1,1,selected
+TAKEOFF,1,1,selected
+LAND,1,1,selected
+RTL,1,1,selected
+WP,2,1,selected
+WP+ALT,1,1,selected
+WP+YAW,1,1,selected
+WP+SPEED,1,1,selected

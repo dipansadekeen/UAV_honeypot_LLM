@@ -1,0 +1,24 @@
+test_binary_and_paper_scores_have_explicitly_different_meaning (test_artifact.FormulaTests.test_binary_and_paper_scores_have_explicitly_different_meaning) ... ok
+test_future_generated_heartbeat_has_priority (test_artifact.FormulaTests.test_future_generated_heartbeat_has_priority) ... ok
+test_ned_climb_sign (test_artifact.FormulaTests.test_ned_climb_sign) ... ok
+test_partial_heartbeat_never_passes (test_artifact.FormulaTests.test_partial_heartbeat_never_passes) ... ok
+test_sequential_errors_never_cross_calls (test_artifact.FormulaTests.test_sequential_errors_never_cross_calls) ... ok
+test_speed_waypoint_selection (test_artifact.FormulaTests.test_speed_waypoint_selection) ... ok
+test_wrapped_angle (test_artifact.FormulaTests.test_wrapped_angle) ... ok
+test_all_225_case_scores (test_artifact.NotebookParityTests.test_all_225_case_scores) ... ok
+test_component_compliance (test_artifact.NotebookParityTests.test_component_compliance) ... ok
+test_hitl_components (test_artifact.NotebookParityTests.test_hitl_components) ... ok
+test_hitl_heartbeat (test_artifact.NotebookParityTests.test_hitl_heartbeat) ... ok
+test_latency_summary (test_artifact.NotebookParityTests.test_latency_summary) ... ok
+test_llm_metrics (test_artifact.NotebookParityTests.test_llm_metrics) ... ok
+test_trajectory_summary (test_artifact.NotebookParityTests.test_trajectory_summary) ... ok
+test_armed_bit_preserved_for_non_arm_command (test_artifact.PromptTests.test_armed_bit_preserved_for_non_arm_command) ... ok
+test_nan_and_bool_rejected (test_artifact.PromptTests.test_nan_and_bool_rejected) ... ok
+test_offsets_and_unknown_fields (test_artifact.PromptTests.test_offsets_and_unknown_fields) ... ok
+test_heartbeat_intervals (test_tlog.TlogTests.test_heartbeat_intervals) ... ok
+test_upload_and_vehicle_timeline (test_tlog.TlogTests.test_upload_and_vehicle_timeline) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 8.865s
+
+OK

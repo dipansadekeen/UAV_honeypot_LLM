@@ -81,14 +81,11 @@ def call_gemini_cloud(
         return ""
 
 
-# new ///
+
 def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "general") -> str:
     t0 = time.monotonic()
-    # model_name = "gpt-oss:20b-cloud" # new
-    # model_name = "nemotron-3-super:cloud" # new
-    # model_name = "nemotron-3-nano:30b-cloud" # new
-    model_name = "gemma4:31b-cloud" # new
-    # model_name = "gpt-oss:120b-cloud" # new
+    model_name = "gemma4:31b-cloud" 
+    # model_name = "gpt-oss:120b-cloud" 
 
 
     try:
@@ -139,7 +136,7 @@ def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "genera
         print(f"[LLM CLOUD FAIL {tag}] {e}", flush=True)
         return ""
 
-
+# local_deployed
 def call_ollama(self, system_text: str, user_text: str, tag: str = "general") -> str:
     payload = {
         "model": self.OLLAMA_MODEL,

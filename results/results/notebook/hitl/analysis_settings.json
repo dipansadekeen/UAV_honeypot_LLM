@@ -1,0 +1,35 @@
+{
+  "input_name": "HITL1_converted.csv",
+  "input_sha256": "54daec1fec9afc2da471fc5bc94e20b33ccc5aff1f15f0847ff4cc051fcc54c4",
+  "settings": {
+    "profile": "notebook",
+    "max_cases": 1,
+    "dt": 0.5,
+    "speed_gate": 0.2,
+    "lc_threshold": 0.5,
+    "latlon_tol": 200.0,
+    "altitude_tol_mm": 1500.0,
+    "land_altitude_mm": 500.0,
+    "heartbeat_prefix": "input_hb_",
+    "tolerances": {
+      "H-Speed": 2.0,
+      "V-Speed": 2.0,
+      "Vel-Disp": 2.8,
+      "Gnd-Disp": 2.8,
+      "Vert-Disp": 2.8,
+      "Heading": 45.0,
+      "Yaw": 45.0,
+      "Roll": 24.0,
+      "Pitch": 24.0
+    },
+    "expected_custom_modes": {
+      "ARM": [
+        50593792
+      ],
+      "DISARM": [
+        0,
+        50593792
+      ]
+    }
+  }
+}

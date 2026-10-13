@@ -1,0 +1,14 @@
+{
+  "source_notebook_sha256": "3015d9d70dcc624ae3980b1ee42b1cd1f600d377694414d48d52f76ae00b1869",
+  "source_cells": [
+    0,
+    3,
+    4,
+    17
+  ],
+  "inputs": {
+    "mission_llm_generation_v2_final_mission_wise.csv": "70ac7d089ec15467cb67eef45a28cc05858bbd4929c17ceec12d43821abe3ffc",
+    "HITL1_converted.csv": "54daec1fec9afc2da471fc5bc94e20b33ccc5aff1f15f0847ff4cc051fcc54c4"
+  },
+  "method": "Executed original notebook cells with input/output paths and display helper redirected; no scoring changes."
+}

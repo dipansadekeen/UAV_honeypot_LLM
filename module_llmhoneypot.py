@@ -72,8 +72,7 @@ class LLMHoneypot:
         self.hist = HistoryBuffer(max_hb=10, max_telem=10, max_cmd=10)
 
         # --- command rag (mounted file path from your upload) ---
-        # self.cmd_trace_rows = load_command_rag_jsonl("../out/px4_command_trace.jsonl")
-        self.cmd_seq_rows   = load_command_rag_jsonl("./out/px4_command_sequences.jsonl")
+        self.cmd_seq_rows   = load_command_rag_jsonl("./examples/px4_command_sequences.jsonl")
 
         # --- telemetry override queue (10-step series after a command) ---
         self.override_lock = threading.Lock()
@@ -95,8 +94,7 @@ class LLMHoneypot:
         # ////////// for QGC
 
 
-        self.cmd_transition_rows = load_command_rag_jsonl("./out/cmd_transition.jsonl") #
-        # self.cmd_transition_rows = load_command_rag_jsonl("../out/check.jsonl") #temporary
+        self.cmd_transition_rows = load_command_rag_jsonl("./examples/cmd_transition.jsonl") #
 
 
         # ---- CONTINUATION STATE ---- # new 2 --telemety patch 
@@ -632,7 +630,7 @@ class LLMHoneypot:
             # -------------------------
             # 2 Call model
             # -------------------------
-            raw = call_ollama(self, system_text, user_text)
+            raw = call_ollama_cloud(self, system_text, user_text) # raw = call_ollama(self, system_text, user_text) --if local
 
             # -------------------------
             # 3 Extract JSON

@@ -1,0 +1,3 @@
+Operation,Case,Heartbeat_Samples,Heartbeat_Passing,Heartbeat_Pass,Has_Motion,Ground_Motion_Pass,Pass
+ARM,1,5,5,True,True,True,True
+DISARM,2,5,5,True,True,True,True

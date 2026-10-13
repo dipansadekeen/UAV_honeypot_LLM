@@ -1,0 +1,6 @@
+Model,Cases Averaged,Avg Samples,Avg Items,Max altitude (m),Mean speed (m/s)
+gpt-oss-20b,1,145.0,7.0,52.4256,17.40835588235294
+gpt-oss-120b,1,100.0,7.0,52.427,4.945312500000001
+gemma4,1,300.0,7.0,52.4,8.143933333333335
+nemotron-super,1,145.0,7.0,52.428,6.086345015151514
+nemotron-nano,1,85.0,6.0,52.47,3.672705882352941

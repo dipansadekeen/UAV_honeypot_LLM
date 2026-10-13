@@ -1,0 +1,176 @@
+Model,Operation,Case,SA,LC,Class,Efficiency (%),Gate
+nemotron-super,TAKEOFF,nemotron-super case 1 | seq 0.0,True,False,SANLC,99.97388100137516,sa
+nemotron-super,WP,nemotron-super case 1 | seq 1.0,True,True,SALC,99.77942822597429,sa
+nemotron-super,WP+ALT,nemotron-super case 1 | seq 2.0,True,True,SALC,97.93902113797353,sa
+nemotron-super,WP+YAW,nemotron-super case 1 | seq 3.0,True,True,SALC,99.83046144993395,sa
+nemotron-super,RTL,nemotron-super case 1 | seq 6.0,True,True,SALC,98.9649940996367,sa
+nemotron-super,TAKEOFF,nemotron-super case 2 | seq 0.0,True,False,SANLC,91.58198110053061,sa
+nemotron-super,WP,nemotron-super case 2 | seq 1.0,True,True,SALC,99.78399496101801,sa
+nemotron-super,WP+ALT,nemotron-super case 2 | seq 2.0,True,True,SALC,96.61156817490624,sa
+nemotron-super,WP+YAW,nemotron-super case 2 | seq 3.0,True,True,SALC,98.26099843900768,sa
+nemotron-super,RTL,nemotron-super case 2 | seq 6.0,True,True,SALC,99.98708130782566,sa
+nemotron-super,TAKEOFF,nemotron-super case 3 | seq 0.0,True,False,SANLC,99.97388100137516,sa
+nemotron-super,WP,nemotron-super case 3 | seq 1.0,True,True,SALC,99.99042355566932,sa
+nemotron-super,WP+ALT,nemotron-super case 3 | seq 2.0,True,True,SALC,90.94242015908695,sa
+nemotron-super,WP+YAW,nemotron-super case 3 | seq 3.0,True,True,SALC,99.91555559884947,sa
+nemotron-super,RTL,nemotron-super case 3 | seq 6.0,True,True,SALC,99.92327211112126,sa
+nemotron-super,TAKEOFF,nemotron-super case 4 | seq 0.0,True,True,SALC,99.97388100137516,sa
+nemotron-super,WP,nemotron-super case 4 | seq 1.0,True,True,SALC,96.97147181679648,sa
+nemotron-super,WP+ALT,nemotron-super case 4 | seq 2.0,True,True,SALC,95.88963326553029,sa
+nemotron-super,WP+YAW,nemotron-super case 4 | seq 3.0,True,True,SALC,99.88908683994315,sa
+nemotron-super,RTL,nemotron-super case 4 | seq 6.0,True,True,SALC,95.3137562264854,sa
+nemotron-super,TAKEOFF,nemotron-super case 5 | seq 0.0,True,False,SANLC,89.06763943758878,sa
+nemotron-super,WP,nemotron-super case 5 | seq 1.0,True,True,SALC,100.62752028784419,sa
+nemotron-super,WP+ALT,nemotron-super case 5 | seq 2.0,True,True,SALC,100.48036451236713,sa
+nemotron-super,WP+YAW,nemotron-super case 5 | seq 3.0,True,True,SALC,96.36161681253972,sa
+nemotron-super,RTL,nemotron-super case 5 | seq 6.0,False,True,FALC,,sa
+nemotron-nano,TAKEOFF,nemotron-nano case 1 | seq 0.0,True,False,SANLC,77.58532154508167,sa
+nemotron-nano,WP,nemotron-nano case 1 | seq 1.0,True,False,SANLC,99.84508394786835,sa
+nemotron-nano,WP+ALT,nemotron-nano case 1 | seq 2.0,True,True,SALC,99.9999599799653,sa
+nemotron-nano,WP+YAW,nemotron-nano case 1 | seq 3.0,True,False,SANLC,100.0239756288386,sa
+nemotron-nano,TAKEOFF,nemotron-nano case 2 | seq 0.0,True,False,SANLC,5.197098280784462,sa
+nemotron-nano,WP,nemotron-nano case 2 | seq 1.0,True,False,SANLC,100.46362369523642,sa
+nemotron-nano,WP+ALT,nemotron-nano case 2 | seq 2.0,True,False,SANLC,96.31808058543488,sa
+nemotron-nano,WP+YAW,nemotron-nano case 2 | seq 3.0,True,False,SANLC,99.92554982262824,sa
+nemotron-nano,RTL,nemotron-nano case 2 | seq 6.0,False,False,FANLC,,sa
+nemotron-nano,TAKEOFF,nemotron-nano case 3 | seq 0.0,True,False,SANLC,96.00046897817775,sa
+nemotron-nano,WP,nemotron-nano case 3 | seq 1.0,True,True,SALC,99.38102663313299,sa
+nemotron-nano,WP+ALT,nemotron-nano case 3 | seq 2.0,True,True,SALC,99.95513619603672,sa
+nemotron-nano,WP+YAW,nemotron-nano case 3 | seq 3.0,True,True,SALC,100.0000000010699,sa
+nemotron-nano,RTL,nemotron-nano case 3 | seq 6.0,True,False,SANLC,99.99867302949269,sa
+nemotron-nano,TAKEOFF,nemotron-nano case 4 | seq 0.0,True,False,SANLC,81.48844463482561,sa
+nemotron-nano,WP,nemotron-nano case 4 | seq 1.0,True,False,SANLC,100.00372751003108,sa
+nemotron-nano,WP+ALT,nemotron-nano case 4 | seq 2.0,True,True,SALC,97.13437682202233,sa
+nemotron-nano,WP+YAW,nemotron-nano case 4 | seq 3.0,True,False,SANLC,99.99997308958032,sa
+nemotron-nano,RTL,nemotron-nano case 4 | seq 6.0,False,False,FANLC,,sa
+nemotron-nano,TAKEOFF,nemotron-nano case 5 | seq 0.0,True,False,SANLC,102.05667018890381,sa
+nemotron-nano,WP,nemotron-nano case 5 | seq 1.0,True,False,SANLC,99.81157626888546,sa
+nemotron-nano,WP+ALT,nemotron-nano case 5 | seq 2.0,True,True,SALC,99.97651940772474,sa
+nemotron-nano,WP+YAW,nemotron-nano case 5 | seq 3.0,True,False,SANLC,99.9930574937809,sa
+nemotron-nano,RTL,nemotron-nano case 5 | seq 6.0,True,False,SANLC,99.13975945144259,sa
+nemotron-nano,RTL,nemotron-nano case 6 | seq 6.0,True,False,SANLC,99.98532957795,sa
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 1 | seq 0.0,True,False,SANLC,93.39045792017635,sa
+gpt-oss-120b,WP,gpt-oss-120b case 1 | seq 1.0,True,True,SALC,98.75704157818997,sa
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 1 | seq 2.0,True,True,SALC,99.11953529659458,sa
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 1 | seq 3.0,True,False,SANLC,99.99999238735566,sa
+gpt-oss-120b,RTL,gpt-oss-120b case 1 | seq 6.0,True,True,SALC,99.99318504019658,sa
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 2 | seq 0.0,True,True,SALC,99.16437589205228,sa
+gpt-oss-120b,WP,gpt-oss-120b case 2 | seq 1.0,True,True,SALC,99.96350674343395,sa
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 2 | seq 2.0,True,True,SALC,99.24250468373982,sa
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 2 | seq 3.0,True,True,SALC,99.99234889808959,sa
+gpt-oss-120b,RTL,gpt-oss-120b case 2 | seq 6.0,True,True,SALC,99.19400452187685,sa
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 3 | seq 0.0,True,True,SALC,99.97388100137516,sa
+gpt-oss-120b,WP,gpt-oss-120b case 3 | seq 1.0,True,True,SALC,95.25014878708228,sa
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 3 | seq 2.0,True,True,SALC,99.95376792188804,sa
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 3 | seq 3.0,True,True,SALC,99.39307972664298,sa
+gpt-oss-120b,RTL,gpt-oss-120b case 3 | seq 6.0,True,True,SALC,99.95179372251481,sa
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 4 | seq 0.0,True,True,SALC,100.01470332926465,sa
+gpt-oss-120b,WP,gpt-oss-120b case 4 | seq 1.0,True,True,SALC,92.62589298428497,sa
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 4 | seq 2.0,True,True,SALC,99.81989955963103,sa
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 4 | seq 3.0,True,True,SALC,99.54999014995765,sa
+gpt-oss-120b,RTL,gpt-oss-120b case 4 | seq 6.0,True,True,SALC,97.81756497730244,sa
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 5 | seq 0.0,True,True,SALC,37.9304697566193,sa
+gpt-oss-120b,WP,gpt-oss-120b case 5 | seq 1.0,True,True,SALC,33.66731282285841,sa
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 5 | seq 2.0,True,True,SALC,34.19232129735055,sa
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 5 | seq 3.0,True,True,SALC,33.06169110474666,sa
+gpt-oss-120b,RTL,gpt-oss-120b case 5 | seq 6.0,True,True,SALC,30.810986202309582,sa
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 1 | seq 0.0,True,True,SALC,97.97440338134766,sa
+gpt-oss-20b,WP,gpt-oss-20b case 1 | seq 1.0,True,True,SALC,99.22630970620027,sa
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 1 | seq 2.0,True,False,SANLC,99.85855305926775,sa
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 1 | seq 3.0,True,True,SALC,93.25376946054482,sa
+gpt-oss-20b,RTL,gpt-oss-20b case 1 | seq 6.0,True,True,SALC,99.96901720607741,sa
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 2 | seq 0.0,True,True,SALC,99.97388100137516,sa
+gpt-oss-20b,WP,gpt-oss-20b case 2 | seq 1.0,True,True,SALC,99.78056943565562,sa
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 2 | seq 2.0,True,True,SALC,98.72435125868337,sa
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 2 | seq 3.0,True,True,SALC,97.87777942597461,sa
+gpt-oss-20b,RTL,gpt-oss-20b case 2 | seq 6.0,False,False,FANLC,,sa
+gemma4,TAKEOFF,gemma case 1 | seq 0.0,True,False,SANLC,5.620376513386167,sa
+gemma4,WP,gemma case 1 | seq 1.0,False,True,FALC,,sa
+gemma4,WP+ALT,gemma case 1 | seq 2.0,False,False,FANLC,,sa
+gemma4,WP+YAW,gemma case 1 | seq 3.0,True,False,SANLC,56.0144717015887,sa
+gemma4,RTL,gemma case 1 | seq 6.0,True,False,SANLC,26.100323974974653,sa
+gemma4,TAKEOFF,gemma case 2 | seq 0.0,True,False,SANLC,97.99988335101891,sa
+gemma4,WP,gemma case 2 | seq 1.0,True,True,SALC,89.73606476950168,sa
+gemma4,WP+ALT,gemma case 2 | seq 2.0,True,False,SANLC,52.95633168114634,sa
+gemma4,WP+YAW,gemma case 2 | seq 3.0,True,False,SANLC,75.98421990401586,sa
+gemma4,RTL,gemma case 2 | seq 6.0,True,False,SANLC,34.05472458079992,sa
+gemma4,TAKEOFF,gemma case 3 | seq 0.0,False,False,FANLC,,sa
+gemma4,WP,gemma case 3 | seq 1.0,True,True,SALC,46.15993877738449,sa
+gemma4,WP+ALT,gemma case 3 | seq 2.0,False,False,FANLC,,sa
+gemma4,WP+YAW,gemma case 3 | seq 3.0,False,False,FANLC,,sa
+gemma4,RTL,gemma case 3 | seq 6.0,True,False,SANLC,27.069239771303383,sa
+nemotron-super,LAND,nemotron-super land case 1,True,True,SALC,19.267214150347442,sa
+nemotron-super,LAND,nemotron-super case 2 land,True,False,SANLC,22.298581663985964,sa
+nemotron-super,LAND,nemotron-super case 3 land,True,False,SANLC,20.70604209097081,sa
+nemotron-super,LAND,nemotron-super case 4 land,True,False,SANLC,33.9265850945495,sa
+nemotron-super,LAND,nemotron-super case 5 land,True,False,SANLC,23.735408560311285,sa
+nemotron-nano,LAND,nemotron-nano case 1 land,True,True,SALC,26.35795546111871,sa
+nemotron-nano,LAND,nemotron-nano case 2 land,True,True,SALC,23.045516407076967,sa
+nemotron-nano,LAND,nemotron-nano case 3 land,True,True,SALC,26.624737945492672,sa
+nemotron-nano,LAND,nemotron-nano case 4 land,True,True,SALC,59.4847775175644,sa
+nemotron-nano,LAND,nemotron-nano case 5 land,True,True,SALC,44.50934579439252,sa
+gemma4,LAND,gemma case 1 land,True,True,SALC,25.298804780876488,sa
+gemma4,LAND,gemma case 2 land,True,False,SANLC,41.54351395730705,sa
+gemma4,LAND,gemma case 3 land,True,True,SALC,93.8423645320197,sa
+gemma4,LAND,gemma case 4 land,True,True,SALC,29.443585780525506,sa
+gemma4,LAND,gemma case 5 land,True,False,SANLC,28.614344723995522,sa
+gpt-oss-120b,LAND,gpt-oss-120b case 1 land,True,True,SALC,27.688953488372096,sa
+gpt-oss-120b,LAND,gpt-oss-120b case 2 land,True,True,SALC,34.23180592991915,sa
+gpt-oss-120b,LAND,gpt-oss-120b case 3 land,True,True,SALC,75.30254383798469,sa
+gpt-oss-120b,LAND,gpt-oss-120b case 4 land,True,True,SALC,26.180257510729614,sa
+gpt-oss-120b,LAND,gpt-oss-120b case 5 land,True,True,SALC,77.48874437218608,sa
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 2->3,True,True,SALC,99.33240170478051,sa
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 4->5,True,True,SALC,99.84781920973204,sa
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 6->7,True,True,SALC,97.30460820528084,sa
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 8->9,True,True,SALC,100.00000000000003,sa
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 10->11,True,True,SALC,99.9746121083976,sa
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 2->3,True,True,SALC,92.82109192498118,sa
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 4->5,True,True,SALC,99.92662881632047,sa
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 6->7,True,True,SALC,88.57502104955446,sa
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 8->9,True,True,SALC,99.07285842002746,sa
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 10->11,True,True,SALC,49.32947272190294,sa
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 2->3,True,False,SANLC,99.65701872174407,sa
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 4->5,True,False,SANLC,99.99347422377845,sa
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 6->7,True,False,SANLC,99.99999789638235,sa
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 8->9,True,True,SALC,91.48384834145332,sa
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 10->11,True,True,SALC,99.99998895772683,sa
+gpt-oss-20b,LAND,gpt-oss-20b case 1 land,False,True,FALC,,sa
+gpt-oss-20b,LAND,gpt-oss-20b case 2 land,True,True,SALC,28.097345132743374,sa
+gpt-oss-20b,LAND,gpt-oss-20b case 3 land,True,True,SALC,31.57894736842105,sa
+gpt-oss-20b,LAND,gpt-oss-20b case 4 land,True,True,SALC,100.0,sa
+gpt-oss-20b,LAND,gpt-oss-20b case 5 land,True,True,SALC,31.475748194014457,sa
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 2->3,True,True,SALC,93.42379497639864,sa
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 4->5,True,False,SANLC,98.83475726755933,sa
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 6->7,True,True,SALC,90.07167468480147,sa
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 8->9,True,False,SANLC,97.7430090194623,sa
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 10->11,True,True,SALC,99.99999900596393,sa
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 3 | seq 0.0,True,True,SALC,99.97388099999999,sa
+gpt-oss-20b,WP,gpt-oss-20b case 3 | seq 1.0,True,False,SANLC,99.65458430741259,sa
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 3 | seq 2.0,True,True,SALC,94.93405548581894,sa
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 3 | seq 3.0,True,False,SANLC,98.56963652157074,sa
+gpt-oss-20b,RTL,gpt-oss-20b case 3 | seq 6.0,True,True,SALC,99.61740841074577,sa
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 4 | seq 0.0,True,True,SALC,99.89233623572595,sa
+gpt-oss-20b,WP,gpt-oss-20b case 4 | seq 1.0,True,True,SALC,88.34053205542631,sa
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 4 | seq 2.0,True,True,SALC,93.9545860692234,sa
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 4 | seq 3.0,True,True,SALC,99.53493163311929,sa
+gpt-oss-20b,RTL,gpt-oss-20b case 4 | seq 6.0,True,True,SALC,99.5848103466397,sa
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 5 | seq 0.0,True,True,SALC,99.92841256432303,sa
+gpt-oss-20b,WP,gpt-oss-20b case 5 | seq 1.0,True,True,SALC,88.2963480666276,sa
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 5 | seq 2.0,True,True,SALC,96.02773239586202,sa
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 5 | seq 3.0,True,False,SANLC,64.05571117170578,sa
+gpt-oss-20b,RTL,gpt-oss-20b case 5 | seq 6.0,True,True,SALC,98.92660487298802,sa
+gemma4,WP+SPEED,gemma waypoint-speed | 2->3,False,False,FANLC,,sa
+gemma4,WP+SPEED,gemma waypoint-speed | 4->5,True,False,SANLC,32.06868875955573,sa
+gemma4,WP+SPEED,gemma waypoint-speed | 6->7,True,False,SANLC,58.35443522690831,sa
+gemma4,WP+SPEED,gemma waypoint-speed | 8->9,True,True,SALC,71.34554772383245,sa
+gemma4,WP+SPEED,gemma waypoint-speed | 10->11,False,False,FANLC,,sa
+gemma4,TAKEOFF,gemma case 4 | seq 0.0,True,False,SANLC,24.37780626524011,sa
+gemma4,WP,gemma case 4 | seq 1.0,True,False,SANLC,85.56592280905416,sa
+gemma4,WP+ALT,gemma case 4 | seq 2.0,True,False,SANLC,57.62758661989202,sa
+gemma4,WP+YAW,gemma case 4 | seq 3.0,True,False,SANLC,59.78953762118435,sa
+gemma4,RTL,gemma case 4 | seq 6.0,True,False,SANLC,14.7647125236269,sa
+gemma4,TAKEOFF,gemma case 5 | seq 0.0,True,False,SANLC,97.99988334967091,sa
+gemma4,WP,gemma case 5 | seq 1.0,True,False,SANLC,44.58794343423027,sa
+gemma4,WP+ALT,gemma case 5 | seq 2.0,True,False,SANLC,58.798527914495644,sa
+gemma4,WP+YAW,gemma case 5 | seq 3.0,True,False,SANLC,91.2320026913121,sa
+gemma4,RTL,gemma case 5 | seq 6.0,True,False,SANLC,15.87873580014732,sa

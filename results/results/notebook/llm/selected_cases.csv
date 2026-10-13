@@ -1,0 +1,226 @@
+Model,Operation,Case,Order,Telemetry_Rows,Case ID
+nemotron-super,TAKEOFF,nemotron-super case 1 | seq 0.0,1.0,20,0
+nemotron-super,WP,nemotron-super case 1 | seq 1.0,1.01,25,1
+nemotron-super,WP+ALT,nemotron-super case 1 | seq 2.0,1.02,20,2
+nemotron-super,WP+YAW,nemotron-super case 1 | seq 3.0,1.03,30,3
+nemotron-super,RTL,nemotron-super case 1 | seq 6.0,1.06,20,4
+nemotron-super,TAKEOFF,nemotron-super case 2 | seq 0.0,148.0,20,5
+nemotron-super,WP,nemotron-super case 2 | seq 1.0,148.01,40,6
+nemotron-super,WP+ALT,nemotron-super case 2 | seq 2.0,148.02,25,7
+nemotron-super,WP+YAW,nemotron-super case 2 | seq 3.0,148.03,25,8
+nemotron-super,RTL,nemotron-super case 2 | seq 6.0,148.06,10,9
+nemotron-super,TAKEOFF,nemotron-super case 3 | seq 0.0,307.0,20,10
+nemotron-super,WP,nemotron-super case 3 | seq 1.0,307.01,35,11
+nemotron-super,WP+ALT,nemotron-super case 3 | seq 2.0,307.02,20,12
+nemotron-super,WP+YAW,nemotron-super case 3 | seq 3.0,307.03,25,13
+nemotron-super,RTL,nemotron-super case 3 | seq 6.0,307.06,20,14
+nemotron-super,TAKEOFF,nemotron-super case 4 | seq 0.0,469.0,15,15
+nemotron-super,WP,nemotron-super case 4 | seq 1.0,469.01,50,16
+nemotron-super,WP+ALT,nemotron-super case 4 | seq 2.0,469.02,20,17
+nemotron-super,WP+YAW,nemotron-super case 4 | seq 3.0,469.03,25,18
+nemotron-super,RTL,nemotron-super case 4 | seq 6.0,469.06,25,19
+nemotron-super,TAKEOFF,nemotron-super case 5 | seq 0.0,631.0,20,20
+nemotron-super,WP,nemotron-super case 5 | seq 1.0,631.01,35,21
+nemotron-super,WP+ALT,nemotron-super case 5 | seq 2.0,631.02,10,22
+nemotron-super,WP+YAW,nemotron-super case 5 | seq 3.0,631.03,20,23
+nemotron-super,RTL,nemotron-super case 5 | seq 6.0,631.06,15,24
+nemotron-nano,TAKEOFF,nemotron-nano case 1 | seq 0.0,898.0,15,30
+nemotron-nano,WP,nemotron-nano case 1 | seq 1.0,898.01,15,31
+nemotron-nano,WP+ALT,nemotron-nano case 1 | seq 2.0,898.02,15,32
+nemotron-nano,WP+YAW,nemotron-nano case 1 | seq 3.0,898.03,5,33
+nemotron-nano,TAKEOFF,nemotron-nano case 2 | seq 0.0,985.0,20,34
+nemotron-nano,WP,nemotron-nano case 2 | seq 1.0,985.01,5,35
+nemotron-nano,WP+ALT,nemotron-nano case 2 | seq 2.0,985.02,10,36
+nemotron-nano,WP+YAW,nemotron-nano case 2 | seq 3.0,985.03,10,37
+nemotron-nano,RTL,nemotron-nano case 2 | seq 6.0,985.06,15,38
+nemotron-nano,TAKEOFF,nemotron-nano case 3 | seq 0.0,1067.0,15,39
+nemotron-nano,WP,nemotron-nano case 3 | seq 1.0,1067.01,10,40
+nemotron-nano,WP+ALT,nemotron-nano case 3 | seq 2.0,1067.02,15,41
+nemotron-nano,WP+YAW,nemotron-nano case 3 | seq 3.0,1067.03,5,42
+nemotron-nano,RTL,nemotron-nano case 3 | seq 6.0,1067.06,15,43
+nemotron-nano,TAKEOFF,nemotron-nano case 4 | seq 0.0,1156.0,10,44
+nemotron-nano,WP,nemotron-nano case 4 | seq 1.0,1156.01,10,45
+nemotron-nano,WP+ALT,nemotron-nano case 4 | seq 2.0,1156.02,15,46
+nemotron-nano,WP+YAW,nemotron-nano case 4 | seq 3.0,1156.03,10,47
+nemotron-nano,RTL,nemotron-nano case 4 | seq 6.0,1156.06,20,48
+nemotron-nano,TAKEOFF,nemotron-nano case 5 | seq 0.0,1248.0,5,49
+nemotron-nano,WP,nemotron-nano case 5 | seq 1.0,1248.01,10,50
+nemotron-nano,WP+ALT,nemotron-nano case 5 | seq 2.0,1248.02,10,51
+nemotron-nano,WP+YAW,nemotron-nano case 5 | seq 3.0,1248.03,10,52
+nemotron-nano,RTL,nemotron-nano case 5 | seq 6.0,1248.06,10,53
+nemotron-nano,RTL,nemotron-nano case 6 | seq 6.0,1340.06,10,58
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 1 | seq 0.0,1746.0,10,69
+gpt-oss-120b,WP,gpt-oss-120b case 1 | seq 1.0,1746.01,40,70
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 1 | seq 2.0,1746.02,20,71
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 1 | seq 3.0,1746.03,10,72
+gpt-oss-120b,RTL,gpt-oss-120b case 1 | seq 6.0,1746.06,15,73
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 2 | seq 0.0,1863.0,15,74
+gpt-oss-120b,WP,gpt-oss-120b case 2 | seq 1.0,1863.01,30,75
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 2 | seq 2.0,1863.02,25,76
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 2 | seq 3.0,1863.03,20,77
+gpt-oss-120b,RTL,gpt-oss-120b case 2 | seq 6.0,1863.06,130,78
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 3 | seq 0.0,2110.0,15,79
+gpt-oss-120b,WP,gpt-oss-120b case 3 | seq 1.0,2110.01,25,80
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 3 | seq 2.0,2110.02,10,81
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 3 | seq 3.0,2110.03,20,82
+gpt-oss-120b,RTL,gpt-oss-120b case 3 | seq 6.0,2110.06,15,83
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 4 | seq 0.0,2217.0,15,84
+gpt-oss-120b,WP,gpt-oss-120b case 4 | seq 1.0,2217.01,35,85
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 4 | seq 2.0,2217.02,20,86
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 4 | seq 3.0,2217.03,40,87
+gpt-oss-120b,RTL,gpt-oss-120b case 4 | seq 6.0,2217.06,20,88
+gpt-oss-120b,TAKEOFF,gpt-oss-120b case 5 | seq 0.0,2374.0,20,89
+gpt-oss-120b,WP,gpt-oss-120b case 5 | seq 1.0,2374.01,55,90
+gpt-oss-120b,WP+ALT,gpt-oss-120b case 5 | seq 2.0,2374.02,35,91
+gpt-oss-120b,WP+YAW,gpt-oss-120b case 5 | seq 3.0,2374.03,45,92
+gpt-oss-120b,RTL,gpt-oss-120b case 5 | seq 6.0,2374.06,30,93
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 1 | seq 0.0,2850.0,10,104
+gpt-oss-20b,WP,gpt-oss-20b case 1 | seq 1.0,2850.01,40,105
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 1 | seq 2.0,2850.02,10,106
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 1 | seq 3.0,2850.03,40,107
+gpt-oss-20b,RTL,gpt-oss-20b case 1 | seq 6.0,2850.06,15,108
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 2 | seq 0.0,3002.0,15,109
+gpt-oss-20b,WP,gpt-oss-20b case 2 | seq 1.0,3002.01,10,110
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 2 | seq 2.0,3002.02,20,111
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 2 | seq 3.0,3002.03,35,112
+gpt-oss-20b,RTL,gpt-oss-20b case 2 | seq 6.0,3002.06,15,113
+gemma4,TAKEOFF,gemma case 1 | seq 0.0,3134.0,475,114
+gemma4,WP,gemma case 1 | seq 1.0,3134.01,45,115
+gemma4,WP+ALT,gemma case 1 | seq 2.0,3134.02,55,116
+gemma4,WP+YAW,gemma case 1 | seq 3.0,3134.03,50,117
+gemma4,RTL,gemma case 1 | seq 6.0,3134.06,60,118
+gemma4,TAKEOFF,gemma case 2 | seq 0.0,3891.0,35,119
+gemma4,WP,gemma case 2 | seq 1.0,3891.01,20,120
+gemma4,WP+ALT,gemma case 2 | seq 2.0,3891.02,30,121
+gemma4,WP+YAW,gemma case 2 | seq 3.0,3891.03,30,122
+gemma4,RTL,gemma case 2 | seq 6.0,3891.06,40,123
+gemma4,TAKEOFF,gemma case 3 | seq 0.0,4088.0,15,124
+gemma4,WP,gemma case 3 | seq 1.0,4088.01,60,125
+gemma4,WP+ALT,gemma case 3 | seq 2.0,4088.02,45,126
+gemma4,WP+YAW,gemma case 3 | seq 3.0,4088.03,30,127
+gemma4,RTL,gemma case 3 | seq 6.0,4088.06,70,128
+nemotron-super,LAND,nemotron-super land case 1,4346.0,30,129
+nemotron-super,LAND,nemotron-super case 2 land,4378.0,25,130
+nemotron-super,LAND,nemotron-super case 3 land,4405.0,20,131
+nemotron-super,LAND,nemotron-super case 4 land,4427.0,15,132
+nemotron-super,LAND,nemotron-super case 5 land,4444.0,20,133
+nemotron-nano,LAND,nemotron-nano case 1 land,4466.0,70,134
+nemotron-nano,LAND,nemotron-nano case 2 land,4539.0,25,135
+nemotron-nano,LAND,nemotron-nano case 3 land,4566.0,25,136
+nemotron-nano,LAND,nemotron-nano case 4 land,4593.0,15,137
+nemotron-nano,LAND,nemotron-nano case 5 land,4610.0,35,138
+gemma4,LAND,gemma case 1 land,4648.0,30,139
+gemma4,LAND,gemma case 2 land,4681.0,20,140
+gemma4,LAND,gemma case 3 land,4703.0,15,141
+gemma4,LAND,gemma case 4 land,4720.0,20,142
+gemma4,LAND,gemma case 5 land,4742.0,45,143
+gpt-oss-120b,LAND,gpt-oss-120b case 1 land,4791.0,20,144
+gpt-oss-120b,LAND,gpt-oss-120b case 2 land,4813.0,15,145
+gpt-oss-120b,LAND,gpt-oss-120b case 3 land,4830.0,20,146
+gpt-oss-120b,LAND,gpt-oss-120b case 4 land,4852.0,40,147
+gpt-oss-120b,LAND,gpt-oss-120b case 5 land,4894.0,110,148
+nemotron-super,ARM,nemotron-super case 1 arm-disarm,5008.0,5,149
+nemotron-super,DISARM,nemotron-super case 1 arm-disarm,5008.001,10,150
+nemotron-super,ARM,nemotron-super case 2 arm-disarm,5026.0,5,151
+nemotron-super,DISARM,nemotron-super case 2 arm-disarm,5026.001,5,152
+nemotron-super,ARM,nemotron-super case 3 arm-disarm,5038.0,10,153
+nemotron-super,DISARM,nemotron-super case 3 arm-disarm,5038.001,5,154
+nemotron-super,ARM,nemotron-super case 4 arm-disarm,5055.0,5,155
+nemotron-super,DISARM,nemotron-super case 4 arm-disarm,5055.001,5,156
+nemotron-super,ARM,nemotron-super case 5 arm-disarm,5067.0,5,157
+nemotron-super,DISARM,nemotron-super case 5 arm-disarm,5067.001,10,158
+nemotron-nano,ARM,nemotron-nano case 1 arm-disarm,5085.0,15,159
+nemotron-nano,DISARM,nemotron-nano case 1 arm-disarm,5085.001,15,160
+nemotron-nano,ARM,nemotron-nano case 2 arm-disarm,5118.0,5,161
+nemotron-nano,DISARM,nemotron-nano case 2 arm-disarm,5118.001,10,162
+nemotron-nano,ARM,nemotron-nano case 3 arm-disarm,5135.0,10,163
+nemotron-nano,DISARM,nemotron-nano case 3 arm-disarm,5135.001,10,164
+nemotron-nano,ARM,nemotron-nano case 4 arm-disarm,5157.0,10,165
+nemotron-nano,DISARM,nemotron-nano case 4 arm-disarm,5157.001,5,166
+nemotron-nano,ARM,nemotron-nano case 5 arm-disarm,5174.0,5,167
+nemotron-nano,DISARM,nemotron-nano case 5 arm-disarm,5174.001,5,168
+gemma4,ARM,gemma case 1 arm-disarm,5188.0,5,169
+gemma4,DISARM,gemma case 1 arm-disarm,5188.001,15,170
+gemma4,ARM,gemma case 2 arm-disarm,5211.0,10,171
+gemma4,DISARM,gemma case 2 arm-disarm,5211.001,10,172
+gemma4,ARM,gemma case 3 arm-disarm,5234.0,5,173
+gemma4,DISARM,gemma case 3 arm-disarm,5234.001,30,174
+gemma4,ARM,gemma case 4 arm-disarm,5271.0,15,175
+gemma4,DISARM,gemma case 4 arm-disarm,5271.001,20,176
+gemma4,ARM,gemma case 5 arm-disarm,5308.0,10,177
+gemma4,DISARM,gemma case 5 arm-disarm,5308.001,10,178
+gpt-oss-120b,ARM,gpt-oss-120b case 1 arm-disarm,5333.0,10,179
+gpt-oss-120b,DISARM,gpt-oss-120b case 1 arm-disarm,5333.001,10,180
+gpt-oss-120b,ARM,gpt-oss-120b case 2 arm-disarm,5355.0,10,181
+gpt-oss-120b,DISARM,gpt-oss-120b case 2 arm-disarm,5355.001,15,182
+gpt-oss-120b,ARM,gpt-oss-120b case 3 arm-disarm,5383.0,5,183
+gpt-oss-120b,DISARM,gpt-oss-120b case 3 arm-disarm,5383.001,10,184
+gpt-oss-120b,ARM,gpt-oss-120b case 4 arm-disarm,5401.0,25,185
+gpt-oss-120b,DISARM,gpt-oss-120b case 4 arm-disarm,5401.001,10,186
+gpt-oss-120b,ARM,gpt-oss-120b case 5 arm-disarm,5438.0,5,187
+gpt-oss-120b,DISARM,gpt-oss-120b case 5 arm-disarm,5438.001,5,188
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 2->3,5450.02,25,189
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 4->5,5450.04,40,190
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 6->7,5450.06,30,191
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 8->9,5450.08,10,192
+gpt-oss-120b,WP+SPEED,gpt-oss-120b waypoint-speed | 10->11,5450.1,95,193
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 2->3,5848.02,25,197
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 4->5,5848.04,25,198
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 6->7,5848.06,30,199
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 8->9,5848.08,20,200
+nemotron-super,WP+SPEED,nemotron-super waypoint-speed | 10->11,5848.1,35,201
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 2->3,6178.02,10,205
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 4->5,6178.04,10,206
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 6->7,6178.06,5,207
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 8->9,6178.08,10,208
+nemotron-nano,WP+SPEED,nemotron-nano waypoint-speed | 10->11,6178.1,10,209
+gpt-oss-20b,ARM,gpt-oss-20b case 1 arm-disarm,6376.0,15,213
+gpt-oss-20b,DISARM,gpt-oss-20b case 1 arm-disarm,6376.001,15,214
+gpt-oss-20b,ARM,gpt-oss-20b case 2 arm-disarm,6408.0,10,215
+gpt-oss-20b,DISARM,gpt-oss-20b case 2 arm-disarm,6408.001,20,216
+gpt-oss-20b,ARM,gpt-oss-20b case 3 arm-disarm,6440.0,5,217
+gpt-oss-20b,DISARM,gpt-oss-20b case 3 arm-disarm,6440.001,10,218
+gpt-oss-20b,ARM,gpt-oss-20b case 4 arm-disarm,6457.0,5,219
+gpt-oss-20b,DISARM,gpt-oss-20b case 4 arm-disarm,6457.001,5,220
+gpt-oss-20b,ARM,gpt-oss-20b case 5 arm-disarm,6469.0,25,221
+gpt-oss-20b,DISARM,gpt-oss-20b case 5 arm-disarm,6469.001,5,222
+gpt-oss-20b,LAND,gpt-oss-20b case 1 land,6502.0,20,223
+gpt-oss-20b,LAND,gpt-oss-20b case 2 land,6525.0,30,224
+gpt-oss-20b,LAND,gpt-oss-20b case 3 land,6558.0,25,225
+gpt-oss-20b,LAND,gpt-oss-20b case 4 land,6589.0,10,226
+gpt-oss-20b,LAND,gpt-oss-20b case 5 land,6601.0,35,227
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 2->3,6640.02,30,228
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 4->5,6640.04,40,229
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 6->7,6640.06,25,230
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 8->9,6640.08,20,231
+gpt-oss-20b,WP+SPEED,gpt-oss-20b waypoint-speed | 10->11,6640.1,10,232
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 3 | seq 0.0,6993.0,10,236
+gpt-oss-20b,WP,gpt-oss-20b case 3 | seq 1.0,6993.01,25,237
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 3 | seq 2.0,6993.02,15,238
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 3 | seq 3.0,6993.03,55,239
+gpt-oss-20b,RTL,gpt-oss-20b case 3 | seq 6.0,6993.06,20,240
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 4 | seq 0.0,7150.0,10,241
+gpt-oss-20b,WP,gpt-oss-20b case 4 | seq 1.0,7150.01,80,242
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 4 | seq 2.0,7150.02,30,243
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 4 | seq 3.0,7150.03,40,244
+gpt-oss-20b,RTL,gpt-oss-20b case 4 | seq 6.0,7150.06,25,245
+gpt-oss-20b,TAKEOFF,gpt-oss-20b case 5 | seq 0.0,7357.0,10,246
+gpt-oss-20b,WP,gpt-oss-20b case 5 | seq 1.0,7357.01,45,247
+gpt-oss-20b,WP+ALT,gpt-oss-20b case 5 | seq 2.0,7357.02,20,248
+gpt-oss-20b,WP+YAW,gpt-oss-20b case 5 | seq 3.0,7357.03,15,249
+gpt-oss-20b,RTL,gpt-oss-20b case 5 | seq 6.0,7357.06,25,250
+gemma4,WP+SPEED,gemma waypoint-speed | 2->3,7506.02,105,251
+gemma4,WP+SPEED,gemma waypoint-speed | 4->5,7506.04,150,252
+gemma4,WP+SPEED,gemma waypoint-speed | 6->7,7506.06,50,253
+gemma4,WP+SPEED,gemma waypoint-speed | 8->9,7506.08,40,254
+gemma4,WP+SPEED,gemma waypoint-speed | 10->11,7506.1,20,255
+gemma4,TAKEOFF,gemma case 4 | seq 0.0,8289.0,95,259
+gemma4,WP,gemma case 4 | seq 1.0,8289.01,20,260
+gemma4,WP+ALT,gemma case 4 | seq 2.0,8289.02,40,261
+gemma4,WP+YAW,gemma case 4 | seq 3.0,8289.03,40,262
+gemma4,RTL,gemma case 4 | seq 6.0,8289.06,135,263
+gemma4,TAKEOFF,gemma case 5 | seq 0.0,8661.0,10,264
+gemma4,WP,gemma case 5 | seq 1.0,8661.01,65,265
+gemma4,WP+ALT,gemma case 5 | seq 2.0,8661.02,25,266
+gemma4,WP+YAW,gemma case 5 | seq 3.0,8661.03,10,267
+gemma4,RTL,gemma case 5 | seq 6.0,8661.06,95,268

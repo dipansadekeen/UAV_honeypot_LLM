@@ -1,0 +1,17 @@
+{
+  "gpt-oss-20b": [
+    "mission_20260916_213308"
+  ],
+  "gpt-oss-120b": [
+    "mission_20260911_145555"
+  ],
+  "gemma4": [
+    "mission_20260910_145238"
+  ],
+  "nemotron-super": [
+    "mission_20260909_213041"
+  ],
+  "nemotron-nano": [
+    "mission_20260909_234208"
+  ]
+}

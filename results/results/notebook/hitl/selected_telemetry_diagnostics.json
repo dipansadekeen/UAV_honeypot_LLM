@@ -1,0 +1,5 @@
+{
+  "source_csv": "HITL1_converted.csv",
+  "source_rows": 728,
+  "input_convention": "Each row already contains input and post-state telemetry; dt is preserved."
+}
