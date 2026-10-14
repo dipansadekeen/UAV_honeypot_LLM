@@ -2,7 +2,7 @@
 
 A MAVLink drone honeypot that answers ground control station commands and generates heartbeat and telemetry updates with an LLM.
 
-This repository contains the files from `Final` at the repository root: the Python modules, `prompts/`, `out/`, and example mission plans in `missions/`.
+This repository contains the files from `Final` at the repository root: the Python modules, `prompts/`, `examples/`, and example mission plans in `missions/`.
 
 ## Run locally
 
