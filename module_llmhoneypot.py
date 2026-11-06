@@ -8,7 +8,7 @@ from pathlib import Path
 from collections import deque
 from typing import Dict, Any, Optional
 from pymavlink import mavutil
-from module_historybuffer_commonstate import CommonState, HistoryBuffer
+from module_history_buffer import CommonState, HistoryBuffer
 from module_cloud_models import call_ollama, call_ollama_cloud, call_gemini_cloud
 from module_helper_functions import (
     load_command_rag_jsonl,
@@ -17,7 +17,6 @@ from module_helper_functions import (
     make_heartbeat,
     extract_json,
     TELEM_BUILDERS,
-    # retrieve_heartbeat_examples_from_sequences,retrieve_telemetry_examples_from_cmd_transition, retrieve_telemetry_examples_from_sequences, rag_retrieve_examples,
     canonicalize_internal_history_fields,
     translate_canonical_series_to_internal,
     TELEM_GROUPS,
@@ -33,7 +32,6 @@ from module_rag import (
     retrieve_telemetry_examples_from_sequences,
 )
 from module_communication import UDPConnection
-# from module_rag import attach_rag_to_hp, retrieve_best_examples_split_from_hp
 class LLMHoneypot:
 
     # ---------------------------
@@ -43,15 +41,13 @@ class LLMHoneypot:
 
         self.connection = UDPConnection(listen_ip="127.0.0.1",listen_port=14551,gcs_ip="127.0.0.1",gcs_port=14550,timeout=0.2,)
 
-        #compatibility alias #new
-        self.mav_out = self.connection.mav_out #new
+        # Compatibility alias
+        self.mav_out = self.connection.mav_out
 
 
-        #self.gcs_addr = None  //for qgc
         self.state = CommonState()
         self.boot_time = time.monotonic()
 
-        # print(f"[INIT] Listening on {self.listen_ip}:{self.listen_port}")
 
         self.llm_enabled = True
         self.llm_log = []
@@ -59,7 +55,7 @@ class LLMHoneypot:
         self.identity_locked = False
 
 
-        # /////// telemetry helpers ///////
+        # Telemetry helpers
         self.stream_lock = threading.Lock()
         self.streams = {}  # name -> [rate_hz, next_send]
         # heartbeat is handled by heartbeat_loop, so don't add it here
@@ -67,22 +63,22 @@ class LLMHoneypot:
         self.telemetry_stop = threading.Event()
         self.telemetry_thread = threading.Thread(target=self.telemetry_loop, daemon=True)
 
-        # //////// command helpers ///////
+        # Command helpers
         # --- history buffers ---
         self.hist = HistoryBuffer(max_hb=10, max_telem=10, max_cmd=10)
 
-        # --- command rag (mounted file path from your upload) ---
+        # --- command RAG examples ---
         self.cmd_seq_rows   = load_command_rag_jsonl("./examples/px4_command_sequences.jsonl")
 
         # --- telemetry override queue (10-step series after a command) ---
         self.override_lock = threading.Lock()
         self.override_series = deque()  # each item: {"apply_at": float_monotonic, "fields": {...}}
 
-        # telem patch | trigger when 5 left
+        # True while the next telemetry series is generated (triggered when 5 steps remain)
         self.regen_in_progress = False
 
 
-        # ////////// for QGC
+        # Parameters reported to QGC
         self.params = [
             ("SYS_AUTOSTART", 4010.0, mavutil.mavlink.MAV_PARAM_TYPE_INT32),
             ("COM_ARM_WO_GPS", 0.0,   mavutil.mavlink.MAV_PARAM_TYPE_INT32),
@@ -91,31 +87,30 @@ class LLMHoneypot:
             ("RTL_RETURN_ALT", 15.0,  mavutil.mavlink.MAV_PARAM_TYPE_REAL32),
         ]
         self.param_index = {name: i for i, (name, _, _) in enumerate(self.params)}
-        # QGC
 
 
-        self.cmd_transition_rows = load_command_rag_jsonl("./examples/cmd_transition.jsonl") #
+        self.cmd_transition_rows = load_command_rag_jsonl("./examples/cmd_transition.jsonl")
 
 
-        # ---- CONTINUATION STATE ---- # new 2 --telemety patch 
+        # --- continuation state ---
         self.active_cmd = None
         self.active_params = None
 
-        self.no_continuation_cmds = {512, 521} #cmd ignore
+        self.no_continuation_cmds = {512, 521}  # no telemetry continuation
 
-        # the - mission
+        # Mission state
         init_mission_state(self)
 
         # mission logging
         self.mission_run_id = time.strftime("mission_%Y%m%d_%H%M%S")
         self.mission_name = "qgc_uploaded_mission"
 
-        self.direct_cmd = self.direct_params = None #continous telem | jul 2026 #new
-        self.home = None # for raw rtl #new
+        self.direct_cmd = self.direct_params = None  # continuous telemetry for direct commands
+        self.home = None  # home position for RTL
 
-        self.cmd_token = 0 #command override for new cmd intrupt
+        self.cmd_token = 0  # incremented per command; stale LLM responses are dropped
 
-    def start_cmd(self, cmd, params): #command override for new cmd intrupt
+    def start_cmd(self, cmd, params):
         self.cmd_token += 1
         with self.override_lock:
             self.override_series.clear()
@@ -126,9 +121,9 @@ class LLMHoneypot:
                 cmd != 400 and self.handle_command_telemetry(cmd, params)
             ),
             daemon=True
-        ).start() #command override for new cmd intrupt
+        ).start()
 
-    # to translate the commands # example: name : MAV_CMD_COMPONENT_ARM_DISARM -- giving enums to the model
+    # Command names for the LLM prompt (e.g., MAV_CMD_COMPONENT_ARM_DISARM)
     def get_command_name(self, command_id: int) -> str:
         """
         Convert MAVLink command id to enum name, e.g. 400 -> MAV_CMD_COMPONENT_ARM_DISARM
@@ -141,7 +136,6 @@ class LLMHoneypot:
             pass
         return f"UNKNOWN_MAV_CMD_{int(command_id)}"
 
-    # //////// command helpers ///////
 
     def log_llm_io(self, tag: str, system_text: str, user_text: str, raw: str, parsed: dict, latency_ms: float):
         row = {
@@ -151,10 +145,8 @@ class LLMHoneypot:
             "system_text": system_text,    # optional (can be huge)
             "user_text": user_text,        # optional (can be huge)
             "raw": raw,
-            # "parsed": parsed,
         }
         try:
-            # with open("llm_io_log.jsonl", "a") as f:
             with open("logs/llm_io_log.jsonl", "a") as f:
                 f.write(json.dumps(row) + "\n")
         except Exception as e:
@@ -164,24 +156,19 @@ class LLMHoneypot:
     # send_mav()  (GCS TX)
     # ---------------------------
 
-    # def send_mav(self, msg): #replaced new
-    #     pkt = msg.pack(self.mav_out)
-    #     self.connection.send(pkt)
-
-    def send_mav(self, msg): #new
+    def send_mav(self, msg):
         self.connection.send_mav(msg)
 
-    # ///////////////HEARTBEAT /////////////////////////
+    # Heartbeat
 
     def heartbeat_loop(self):
         while True:
-            # if self.gcs_addr: #new replaced
-            if self.connection.gcs_addr: #new
+            if self.connection.gcs_addr:
                 update_time_fields(self.state, self.boot_time)                      
                 hb = make_heartbeat(self.mav_out, self.state)
                 self.send_mav(hb)
                 with self.state_lock:
-                    self.hist.add_hb(self.state) # log last hb (for LLM prompt)
+                    self.hist.add_hb(self.state)  # keep the last heartbeat for the LLM prompt
             time.sleep(1)
 
 
@@ -211,7 +198,7 @@ class LLMHoneypot:
                 self.state.system_status,
             )
 
-    # ////////////////////// telemetry ///////////////////////
+    # Telemetry
 
     def _msg_name_from_id(self, msg_id: int) -> str:
         """
@@ -289,8 +276,7 @@ class LLMHoneypot:
         tick = 0.01  # internal scheduler rate (100 Hz)
 
         while not self.telemetry_stop.is_set():
-            # if not self.gcs_addr: #new replaced
-            if not self.connection.gcs_addr: #new
+            if not self.connection.gcs_addr:
                 time.sleep(tick)
                 continue
 
@@ -301,7 +287,6 @@ class LLMHoneypot:
 
 
 
-            # ///////////// Apply queued telemetry “command impact” inside
             # --- apply scheduled command-impact telemetry steps (if any) ---
             with self.override_lock:
                 while self.override_series and now >= self.override_series[0]["apply_at"]:
@@ -312,11 +297,9 @@ class LLMHoneypot:
                             if hasattr(self.state, k):
                                 setattr(self.state, k, v)
 
-            # ///////////// Apply queued telemetry “command impact” inside
-            self.update_touchdown_state() #new
+            self.update_touchdown_state()
             with self.stream_lock:
                 items = list(self.streams.items())  # copy
-                # print("[ACTIVE STREAMS]", list(self.streams.keys()), flush=True) # new///
 
             for name, (rate_hz, next_send) in items:
                 if now < next_send:
@@ -330,13 +313,11 @@ class LLMHoneypot:
                     with self.state_lock:
                         msg = builder(self.mav_out, self.state)
                     self.send_mav(msg)
-                    # print(f"[TELEM TX] {name}", flush=True) # new///
                 except Exception as e:
                     print(f"[TELEM ERROR] {name}: {e}", flush=True)
                     continue
 
-                # ///// new part
-                # log telemetry snapshot AFTER successful send
+                # log telemetry snapshot after a successful send
                 with self.state_lock:
                     if name == "SYS_STATUS":
                         self.hist.add_telem(name, {
@@ -377,7 +358,6 @@ class LLMHoneypot:
                             "vfr_alt": self.state.vfr_alt,
                             "vfr_climb": self.state.vfr_climb,
                         })
-                # /////////////// telemetry logging /////
 
                 period = 1.0 / max(0.0001, float(rate_hz))
                 with self.stream_lock:
@@ -387,9 +367,8 @@ class LLMHoneypot:
 
             time.sleep(tick)
 
-            # ////////////////////// telemetry ///////////////////////
 
-    # send telemetry helpers # new///
+    # Telemetry stream helpers
     def enable_default_telem_streams(self):
         now = time.monotonic()
         with self.stream_lock:
@@ -399,16 +378,16 @@ class LLMHoneypot:
             self.streams["GLOBAL_POSITION_INT"] = [2.0, now]
             self.streams["ATTITUDE"] = [2.0, now]
             self.streams["VFR_HUD"] = [2.0, now]
-            self.streams["BATTERY_STATUS"] = [2.0, now] #new
-            self.streams["MISSION_CURRENT"] = [2.0, now] # current mission # new
+            self.streams["BATTERY_STATUS"] = [2.0, now]
+            self.streams["MISSION_CURRENT"] = [2.0, now]  # current mission item
 
             # QGC flying/landing state
-            self.streams["EXTENDED_SYS_STATE"] = [1.0, now] # new jul
+            self.streams["EXTENDED_SYS_STATE"] = [1.0, now]
 
         print("[DEFAULT STREAMS ENABLED]", list(self.streams.keys()), flush=True)
 
 
-    # //////////////////////QGC ///////////////////////
+    # QGC parameter protocol
     def _send_param_value(self, name: str, value: float, ptype: int, index: int, count: int):
         name16 = name[:16]  # MAVLink param_id is 16 chars
         msg = self.mav_out.param_value_encode(
@@ -424,15 +403,14 @@ class LLMHoneypot:
         count = len(self.params)
         for i, (name, val, ptype) in enumerate(self.params):
             self._send_param_value(name, val, ptype, i, count)
-    # //////////////////////QGC ///////////////////////
 
 
     # ---------------------------
-    # core()  (Main loop)
+    # LLM configuration
     # ---------------------------
 
     OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://192.168.1.100:11434")
-    OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gpt-oss:20b")
+    OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gpt-oss:20b")  # also evaluated: nemotron-3-nano:30b
     OLLAMA_TIMEOUT_SEC = 90
 
 
@@ -460,7 +438,7 @@ class LLMHoneypot:
     - roll, pitch, yaw: radians
     """
 
-    def apply_qgc_flight_state_from_cmd(self, cmd: int, params: dict): # new jul
+    def apply_qgc_flight_state_from_cmd(self, cmd: int, params: dict):
         """
         Rule-based QGC state update.
         EXTENDED_SYS_STATE is transmitted continuously by telemetry_loop.
@@ -557,7 +535,7 @@ class LLMHoneypot:
             print("[QGC STATE] EXTENDED_SYS_STATE=IN_AIR for guided/mission command", flush=True)
             return
 
-    def update_touchdown_state(self): #new end-state.land
+    def update_touchdown_state(self):
         """Update the simulated ground flag without automatically disarming."""
         mav = mavutil.mavlink
 
@@ -586,7 +564,6 @@ class LLMHoneypot:
                 print("[QGC STATE] Touchdown -> ON_GROUND", flush=True)
 
 
-    # def llm_prompt(self, attacker_msg: Optional[dict] = None) -> Optional[dict]:
     def llm_prompt(self, attacker_msg=None, context_type="general"):
         """
         Build prompt + call Ollama + extract JSON.
@@ -607,17 +584,15 @@ class LLMHoneypot:
 
 
         # -------------------------
-        # 1️⃣ Snapshot state safely
+        # 1 Snapshot state safely
         # -------------------------
         with self.state_lock:
             snapshot = self.state.__dict__.copy()
 
-        # /////////////////// HEARTBEAT /////////////////////////
         if context_type == "heartbeat":
             system_text = self.LLM_OUTPUT_RULES + "\n" + HEARTBEAT_PROMPT_PATCH
         else:
             system_text = self.LLM_OUTPUT_RULES
-        # /////////////////// HEARTBEAT /////////////////////////
         
 
         user_text = json.dumps({
@@ -630,7 +605,7 @@ class LLMHoneypot:
             # -------------------------
             # 2 Call model
             # -------------------------
-            raw = call_ollama_cloud(self, system_text, user_text) # raw = call_ollama(self, system_text, user_text) --if local
+            raw = call_ollama(self, system_text, user_text)  # local Ollama; use call_ollama_cloud for the cloud endpoint
 
             # -------------------------
             # 3 Extract JSON
@@ -690,14 +665,12 @@ class LLMHoneypot:
                 if k not in valid_fields:
                     print(f"[VERIFY FAIL] Invalid telemetry field: {k}")
                     return False
-        # ///////////////////////HEARTBEAT /////////////////////////
         if self.identity_locked:
             protected = {"hb_type", "hb_autopilot", "mavlink_version"}
             for k in state_patch.keys():
                 if k in protected:
                     print(f"[VERIFY FAIL] Attempt to modify locked identity field: {k}")
                     return False
-        # ///////////////////////HEARTBEAT /////////////////////////
         return True
 
 
@@ -736,8 +709,8 @@ class LLMHoneypot:
 
 
 
-    # ////////////handle commands////////////////////////
-    # logging the command and response
+    # Command handling
+    # Log the command and response
     def log_cmd_vs_llm(self, cmd: int, params: dict, llm_raw: str, llm_parsed: dict):
         row = {
             "ts": time.time(),
@@ -770,12 +743,6 @@ class LLMHoneypot:
         result_str = str(result_str).upper().strip()
         mav_result = ACK_RESULT_MAP.get(result_str, mavutil.mavlink.MAV_RESULT_UNSUPPORTED)
 
-        # //// commented out for ack time delay /////
-        # if cmd_id >= 0:
-        #     ack_msg = self.mav_out.command_ack_encode(cmd_id, mav_result)
-        #     self.send_mav(ack_msg)
-        # //// commented out for ack time delay /////
-        
 
         # apply patches
         hb_patch = response.get("heartbeat_patch", {}) if isinstance(response.get("heartbeat_patch", {}), dict) else {}
@@ -808,7 +775,7 @@ class LLMHoneypot:
                 })
 
         print(f"[CMD APPLY] ack={result_str} scheduled_steps={len(self.override_series)}", flush=True)
-    # for heartbeat based on commands /////////
+    # Heartbeat generation for commands
     def handle_command_heartbeat(self, command_id: int, params: dict) -> Optional[dict]:
         """
         Heartbeat-only LLM handler.
@@ -816,15 +783,14 @@ class LLMHoneypot:
         - rag traces as example
         - current command
         - previous heartbeat only
-        - optional telemetry slot kept commented for later
         Output:
         - parsed response dict, or None
         Side effect:
         - applies heartbeat patch once if valid
         """
-        token = self.cmd_token # new cmd can interrupt command override
+        token = self.cmd_token  # a newer command invalidates this response
         fewshot_seq = retrieve_heartbeat_examples_from_sequences(self.cmd_seq_rows, command_id, k=5)
-        fewshot_trace = []   # keep trace disabled for heartbeat for now
+        fewshot_trace = []  # trace examples are not used for heartbeat
         # 1) collect only previous heartbeat
         with self.state_lock:
             prev_hb = {
@@ -836,17 +802,11 @@ class LLMHoneypot:
                 "mavlink_version": int(self.state.mavlink_version),
             }
 
-        # Optional telemetry context for later
-        # last_telem = self.hist.snapshot().get("last_telemetry", [])
-        # last_telem = last_telem[-1] if last_telem else None
-        # cmd_name = self.get_command_name(command_id)
-
         system_text = (Path(__file__).resolve().parent /"prompts"/"heartbeat_prompt.txt").read_text(encoding="utf-8").strip()
 
         user_payload = {
             "command": {
                 "id": int(command_id),
-                # "name": cmd_name,
                 "params": {
                     "param1": float(params.get("param1", 0.0)),
                     "param2": float(params.get("param2", 0.0)),
@@ -862,7 +822,6 @@ class LLMHoneypot:
                 "sequence_examples": fewshot_seq,
                 "trace_examples": fewshot_trace,
             },
-            # "previous_telemetry": last_telem,
             "instruction": "Generate one heartbeat patch for this command."
         }
 
@@ -872,9 +831,9 @@ class LLMHoneypot:
             print("\n[HB LLM USER PROMPT]")
             print(user_text, flush=True) # view llm prompt
 
-            # raw = call_ollama_cloud(self, system_text, user_text, tag="heartbeat_command") # *heartbeat cloud
-            raw = call_ollama(self, system_text, user_text, tag="heartbeat_command") 
-            if token is not None and token != self.cmd_token: #new command override
+            # Cloud model: raw = call_ollama_cloud(self, system_text, user_text, tag="heartbeat_command")
+            raw = call_ollama(self, system_text, user_text, tag="heartbeat_command")
+            if token is not None and token != self.cmd_token:  # stale response: a newer command arrived
                 print(f"[OLD TELEM IGNORED] cmd={command_id}", flush=True)
                 return None            
             parsed = extract_json(raw)
@@ -968,9 +927,8 @@ class LLMHoneypot:
                     setattr(self.state, k, int(v))
 
 
-    # for heartbeat based on commands /////////
 
-    # for telemetry based on commands /////////
+    # Telemetry generation for commands
     def get_current_heartbeat_snapshot(self) -> dict:
         with self.state_lock:
             return {
@@ -980,9 +938,9 @@ class LLMHoneypot:
             }
 
 
-    # ------ validator 
+    # --- validators ---
 
-    def get_last_5_telemetry_snapshots(self) -> list:
+    def get_last_telemetry_snapshots(self) -> list:
         hist = self.hist.snapshot().get("last_telemetry", [])
         out = []
 
@@ -1006,19 +964,19 @@ class LLMHoneypot:
 
         return out
         
-    # ----prompting
+    # --- prompting ---
     def handle_command_telemetry(self, command_id: int, params: dict) -> Optional[dict]:
         """
         Telemetry-only LLM handler.
         Uses:
           - current command
           - current heartbeat
-          - last 5 live telemetry
+          - last live telemetry
           - transition examples from cmd_transition.jsonl
           - sequence followup examples from px4_command_sequences.jsonl
         """
-        token = self.cmd_token # new command overrides
-        last_5_telem = self.get_last_5_telemetry_snapshots()
+        token = self.cmd_token  # a newer command invalidates this response
+        last_telem = self.get_last_telemetry_snapshots()
         current_hb = self.get_current_heartbeat_snapshot()
 
         transition_examples = retrieve_telemetry_examples_from_cmd_transition(
@@ -1028,19 +986,7 @@ class LLMHoneypot:
             self.cmd_seq_rows, command_id, k=2
         )
 
-        # #  || RAG
-        # rag_pack = retrieve_best_examples_split_from_hp(
-        #     self,
-        #     command_id=command_id,
-        #     params=params,
-        #     k_each=1,
-        # )
-
-        # transition_examples = rag_pack["transition_examples"]
-        # sequence_examples = rag_pack["sequence_examples"]
-        # #  || RAG
-
-        print("[--DEBUG--] last_5_telemetry_count =", len(last_5_telem))
+        print("[--DEBUG--] last_telemetry_count =", len(last_telem))
         print("[--DEBUG--] transition_examples =", len(transition_examples))
         print("[--DEBUG--] sequence_examples =", len(sequence_examples))
         cmd_name = self.get_command_name(command_id)
@@ -1061,9 +1007,9 @@ class LLMHoneypot:
                 },
             },
             "current_heartbeat": current_hb,
-            "last_5_telemetry": last_5_telem,
-            "transition_examples": transition_examples,
-            "sequence_examples": sequence_examples,
+            "last_telemetry": last_telem,
+            "transition_examples": transition_examples,  # removed in ablations 2 and 3
+            "sequence_examples": sequence_examples,  # removed in ablations 1 and 3
             "allowed_telemetry_groups": TELEM_GROUPS,
             "instruction": "Generate the next 5 telemetry states using canonical MAVLink field names grouped by message."
         }
@@ -1074,30 +1020,18 @@ class LLMHoneypot:
             print("\n[TELEM LLM USER PROMPT]")
             print(user_text, flush=True) # view LLM prompt
 
-            # raw = call_ollama_cloud(self,system_text, user_text, tag="telemetry_command") #uncomment
-            raw = call_ollama(self,system_text, user_text, tag="telemetry_command") #uncomment
+            # Cloud model: raw = call_ollama_cloud(self, system_text, user_text, tag="telemetry_command")
+            # Gemini: result = call_gemini_cloud(system_text, user_text, tag="telemetry_command",
+            #                                    log_fn=self.log_llm_io, return_meta=True)
+            #         raw = result["raw"]; parsed = result["parsed"] or extract_json(raw)
+            raw = call_ollama(self, system_text, user_text, tag="telemetry_command")
 
 
-            if token != self.cmd_token: # new cmd override
+            if token != self.cmd_token:  # stale response: a newer command arrived
                 print(f"[OLD RESPONSE IGNORED] cmd={command_id}", flush=True)
                 return None
             
-            # # comment use when gemini #
-            # gemini_result = call_gemini_cloud(system_text, user_text, tag="telemetry_command", model_name="gemini-2.5-flash",log_fn=self.log_llm_io, return_meta=True,)
-            # raw = gemini_result["raw"]
-
-            # self.last_llm_latency_ms = gemini_result["latency_ms"]
-            # self.last_llm_model_name = gemini_result["model_name"]
-
-            # parsed = gemini_result["parsed"]
-
-            # parsed = gemini_result.get("parsed")
-
-            # if parsed is None:
-            #     parsed = extract_json(raw)
-            # # comment use when gemini #
-
-            parsed = extract_json(raw)  # if gemini comment this.
+            parsed = extract_json(raw)
 
             print("\n[TELEM LLM RAW RESPONSE]")
             print(raw, flush=True)
@@ -1109,17 +1043,6 @@ class LLMHoneypot:
             if not self.validate_telemetry_response(parsed):
                 print("[TELEM LLM] validation failed", flush=True)
                 return None
-
-            # series = parsed.get("telemetry_series", [])
-            # base = time.monotonic()
-
-            # with self.override_lock:
-            #     self.override_series.clear()
-            #     for step in series:
-            #         self.override_series.append({
-            #             "apply_at": base + float(step["dt"]),
-            #             "fields": step["fields"],
-            #         })
 
             log_mission_llm_csv(
                 hp=self,
@@ -1133,14 +1056,10 @@ class LLMHoneypot:
             series = parsed.get("telemetry_series", [])
             translated_series = translate_canonical_series_to_internal(series)
 
-            # if not self.validate_internal_translated_series(translated_series):
-            #     print("[TELEM LLM] translated series validation failed", flush=True)
-            #     return None
-
             base = time.monotonic()
 
             with self.override_lock:
-                self.override_series.clear() # new 2 | commented for telemetry patch
+                self.override_series.clear()
                 for step in translated_series:
                     self.override_series.append({
                         "apply_at": base + float(step["dt"]),
@@ -1213,27 +1132,18 @@ class LLMHoneypot:
 
         return True
 
-    # for telemetry based on commands /////////
     def handle_inbound_msg(self, msg):
         """
-        # Handles inbound MAVLink messages from the GCS.
+        Handle an inbound MAVLink message from the GCS.
 
-        # Priority order:
-        # 1) Telemetry stream control (SET_MESSAGE_INTERVAL / MAV_CMD_SET_MESSAGE_INTERVAL)
-        # - handled immediately
-        # - always ACKed (ACCEPTED if supported else UNSUPPORTED)
-        # - NEVER sent to the LLM
-
-        # 2) Other COMMAND_LONG commands
-        # - ACK immediately (so GCS sees a response)
-        # - optionally send to LLM to generate state_patch + telemetry_series
-        # - apply patch to state (which affects subsequent telemetry + heartbeat)
-
-        update: Full patched handler:
-        - Stream control (SET_MESSAGE_INTERVAL / MAV_CMD_SET_MESSAGE_INTERVAL): handled locally, ACKed, NOT sent to LLM
-        #- Other COMMAND_LONG: logged -> LLM (llm_prompt_command) -> apply_llm_command_result (ACK + patches + schedule series)
-        - Everything else: ignore (or extend later)
-            """
+        - Mission protocol and SET_MODE (LAND/RTL): handled by the mission logic.
+        - PARAM requests: answered from the local parameter table.
+        - Stream control (SET_MESSAGE_INTERVAL / MAV_CMD_SET_MESSAGE_INTERVAL):
+          handled locally and ACKed, never sent to the LLM.
+        - Other COMMAND_LONG / COMMAND_INT: ACKed by the EFSM; accepted commands
+          are logged and sent to the LLM to generate heartbeat and telemetry.
+        - Everything else is ignored.
+        """
         msg_type = msg.get_type()
         attacker_msg = {"type": msg_type}
 
@@ -1241,7 +1151,7 @@ class LLMHoneypot:
         tc = int(getattr(msg, "get_srcComponent", lambda: 190)())
 
 
-        # the - mission 
+        # Mission protocol
         if msg_type == "MISSION_COUNT":
             handle_mission_count(self, msg)
             return
@@ -1252,19 +1162,7 @@ class LLMHoneypot:
                 finalize_mission_upload(self)
             return
 
-        # if msg_type == "SET_MODE":
-        #     base_mode = int(getattr(msg, "base_mode", 0))
-        #     custom_mode = int(getattr(msg, "custom_mode", 0))
-
-        #     print(f"[SET_MODE RX] base_mode={base_mode} custom_mode={custom_mode}", flush=True)
-
-        #     with self.state_lock:
-        #         self.state.base_mode = base_mode
-        #         self.state.custom_mode = custom_mode
-
-        #     return
-
-        # handle land and RTL without even mission: jul 2026
+        # LAND and RTL via SET_MODE, without an uploaded mission
         if msg_type == "SET_MODE":
             base_mode = int(getattr(msg, "base_mode", 0))
             custom_mode = int(getattr(msg, "custom_mode", 0))
@@ -1300,7 +1198,6 @@ class LLMHoneypot:
                 self.handle_command_telemetry(cmd, params)
 
             return
-        # the - mission 
 
 
         # ------------------------------------------------------------
@@ -1317,7 +1214,7 @@ class LLMHoneypot:
             # We'll keep it quiet here to avoid confusing GCS tooling.
             return
 
-        #  ////////// QGC ///////////////////////////////////////
+        # QGC parameter requests
         if msg_type == "PARAM_REQUEST_LIST":
             print("[PARAM] REQUEST_LIST -> sending params", flush=True)
             self._send_all_params()
@@ -1347,21 +1244,11 @@ class LLMHoneypot:
 
             print(f"[PARAM] REQUEST_READ unknown idx={idx} name={pname!r}", flush=True)
             return
-        #  ////////// QGC /////////////////////////////
 
         # ------------------------------------------------------------
         # (B) COMMAND_LONG: may include MAV_CMD_SET_MESSAGE_INTERVAL
         # ------------------------------------------------------------
-        # /////////older
-        # if msg_type == "COMMAND_LONG":
-        #     cmd = int(getattr(msg, "command", -1))
-        #     attacker_msg["command"] = cmd
-
-        #     print(f"[COMMAND_LONG RX] cmd={cmd}", flush=True)
-        # /////////older -- before had only command long
-
-
-        # ///////new handled long and int
+        # COMMAND_LONG and COMMAND_INT
         if msg_type in ("COMMAND_LONG", "COMMAND_INT"):
             cmd = int(getattr(msg, "command", -1))
             is_int = msg_type == "COMMAND_INT"
@@ -1381,9 +1268,8 @@ class LLMHoneypot:
 
             attacker_msg["command"] = cmd
             print(f"[{msg_type} RX] cmd={cmd} params={params}", flush=True)
-        # ///////new handled long and int
 
-            # the - mission
+            # Mission start and mission commands
             if cmd == mavutil.mavlink.MAV_CMD_MISSION_START:
                 ack_msg = mavutil.mavlink.MAVLink_command_ack_message(
                     int(cmd),
@@ -1410,7 +1296,6 @@ class LLMHoneypot:
                 )
                 self.send_mav(ack)
                 return
-            # the - mission 
 
             # ---------------------------
             # B1) Telemetry stream request
@@ -1424,15 +1309,12 @@ class LLMHoneypot:
 
                 ack = self.mav_out.command_ack_encode(
                     mavutil.mavlink.MAV_CMD_SET_MESSAGE_INTERVAL,
-                    mavutil.mavlink.MAV_RESULT_ACCEPTED if handled else mavutil.mavlink.MAV_RESULT_UNSUPPORTED                    # ,0,  # progress
-                    # 0,  # result_param2
-                    # ts, # target_system
-                    # tc  # target_component
+                    mavutil.mavlink.MAV_RESULT_ACCEPTED if handled else mavutil.mavlink.MAV_RESULT_UNSUPPORTED
                     )
                 self.send_mav(ack)
                 return
             # ---------------------------
-            # B2) Request handling #new///
+            # B2) Request handling
             # ---------------------------
             if cmd == mavutil.mavlink.MAV_CMD_REQUEST_MESSAGE:
                 requested_msg_id = int(round(float(getattr(msg, "param1", -1.0))))
@@ -1489,13 +1371,16 @@ class LLMHoneypot:
             # B3) Other commands (ARM/DISARM/TAKEOFF/etc.)
             # ---------------------------
 
-            # result, reason= state_automata_ack(cmd, params, self.state)
+            with self.state_lock:
+                result, reason, execute = state_automata_ack(cmd, params, self.state, with_effect=True)
 
-            with self.state_lock: # automaton new
-                result, reason, execute = state_automata_ack( cmd, params, self.state, with_effect=True)
-            
-            result_name = mavutil.mavlink.enums["MAV_RESULT"][int(result)].name #debug
-            print(f"[ACK RULE] cmd={cmd} result={result_name} reason={reason}", flush=True) #debug
+            # EFSM ablation: comment out the automaton call above and use
+            # result = mavutil.mavlink.MAV_RESULT_ACCEPTED
+            # reason = "EFSM disabled (ablation)"
+            # execute = True
+
+            result_name = mavutil.mavlink.enums["MAV_RESULT"][int(result)].name
+            print(f"[ACK RULE] cmd={cmd} result={result_name} reason={reason}", flush=True)
 
 
             ack_msg = mavutil.mavlink.MAVLink_command_ack_message(
@@ -1504,12 +1389,6 @@ class LLMHoneypot:
             print(f"[ACK TX] cmd={cmd} result={result}", flush=True)
             self.send_mav(ack_msg)          
 
-            # if ack then prompt else not. #new
-            # # ✅ ADD THIS CONDITION
-            # if result != mavutil.mavlink.MAV_RESULT_ACCEPTED:
-            #     print(f"[LLM SKIPPED] cmd={cmd} because ACK={result}", flush=True)
-            #     return
-            # replacing with logging rx_ other than accepted---- jul 2026
             if result != mavutil.mavlink.MAV_RESULT_ACCEPTED:
                 if cmd not in self.no_continuation_cmds:
                     os.makedirs("logs", exist_ok=True)
@@ -1525,9 +1404,8 @@ class LLMHoneypot:
 
                 print(f"[LLM SKIPPED] cmd={cmd} because ACK={result}", flush=True)
                 return
-            # replacing with logging rx_ other than accepted---- jul 2026            
 
-            # THIS NEW BLOCK HERE: #new for ack_automata.
+            # accepted commands that need no new action skip the LLM
             if not execute:
                 print(
                     f"[LLM SKIPPED] cmd={cmd}: accepted without new action; "
@@ -1537,13 +1415,13 @@ class LLMHoneypot:
                 return
 
 
-            # Store home when ARM is accepted # raw rtl #new
+            # Store home when ARM is accepted
             if cmd == 400 and int(round(params["param1"])) == 1:
                 with self.state_lock:
                     self.home = {
                         "lat": int(self.state.gpi_lat),
                         "lon": int(self.state.gpi_lon),
-                    }# raw rtl #new
+                    }
             if cmd == 179:
                 with self.state_lock:
                     self.home = {
@@ -1552,12 +1430,12 @@ class LLMHoneypot:
                     }
 
                 print(f"[HOME SET] lat={self.home['lat']} lon={self.home['lon']}", flush=True)
-                return # new set home ;;;
+                return
 
 
-            print(f"[HOME STORED] lat={self.home['lat']} lon={self.home['lon']}",flush=True) # new debug home 
+            print(f"[HOME STORED] lat={self.home['lat']} lon={self.home['lon']}",flush=True)
 
-            # QGC-critical state update # new jul
+            # QGC flight-state update
             self.apply_qgc_flight_state_from_cmd(cmd, params)
 
 
@@ -1568,24 +1446,22 @@ class LLMHoneypot:
             # minimal runtime log (easy to see in terminal)
             print(f"[CMD RX] id={cmd} params={params}", flush=True)
 
-            # optional persistent log (recommended)
+            # persistent command log
             try:
-                # with open("cmd_rx_log.jsonl", "a") as f:
                 with open("logs/cmd_rx_log.jsonl", "a") as f:
                     f.write(json.dumps({"ts": time.time(), "cmd": cmd, "params": params}) + "\n")
             except Exception as e:
                 print(f"[CMD LOG ERROR] {e}", flush=True)
 
-            if cmd in self.no_continuation_cmds: #new replacement from////
+            if cmd in self.no_continuation_cmds:
                 print(f"[LLM SKIP] cmd={cmd}", flush=True)
                 return
 
-            #  cont. telem
+            # continuous telemetry
             self.direct_cmd, self.direct_params = cmd, dict(params)
 
             with self.override_lock:
                 self.override_series.clear()
-            #  cont. telem
 
             self.start_cmd(cmd, params)
 
@@ -1595,10 +1471,9 @@ class LLMHoneypot:
         # Other message types (optional: track or ignore)
         # ------------------------------------------------------------
         return
-        # ////////////// telemetry /////////////////////
 
 
-    def tick_direct_command(self): # cont telem
+    def tick_direct_command(self):  # continuous telemetry
         if self.mission_state["active"] or self.direct_cmd is None:
             return
 
@@ -1617,30 +1492,25 @@ class LLMHoneypot:
     # ---------------------------
     def run(self):
 
-        # threading.Thread(target=self.heartbeat_loop, daemon=True).start()
 
-
-        # ///////////// HEARTBEAT /////////////////////////
-        # 1️⃣ Initialize identity
+        # 1 Initialize identity
         self.initialize_heartbeat_identity()
 
-        # 2️⃣ Start heartbeat thread
+        # 2 Start heartbeat thread
         threading.Thread(target=self.heartbeat_loop, daemon=True).start()
-        # ///////////// HEARTBEAT /////////////////////////
 
 
-        # 3️⃣ Start request-driven telemetry scheduler
+        # 3 Start request-driven telemetry scheduler
         self.telemetry_thread.start()
-        self.enable_default_telem_streams() # new ///
+        self.enable_default_telem_streams()
 
         while True:
 
-            # the - mission
+            # mission
             maybe_start_uploaded_mission(self)
             start_or_tick_mission(self)
-            # the - mission
 
-            self.tick_direct_command() # cont telem | jul 2026
+            self.tick_direct_command()  # continuous telemetry
 
             messages, addr = self.connection.receive_mav(4096)
 

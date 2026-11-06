@@ -115,7 +115,7 @@ class CommonState:
     gpi_hdg: int = 0                       # cdeg
 
     # ------------------------
-    # LOCAL_POSITION_NED //SKIP for now
+    # LOCAL_POSITION_NED (not streamed)
     # ------------------------
     lpn_time_boot_ms: int = 0
     lpn_x: float = 0.0                     # meters
@@ -147,7 +147,7 @@ class CommonState:
     vfr_climb: float = 0.0                 # m/s
 
     # ------------------------
-    # ATTITUDE_QUATERNION || Skip for now
+    # ATTITUDE_QUATERNION (not streamed)
     # ------------------------
     aq_time_boot_ms: int = 0
     q1: float = 1.0
@@ -157,7 +157,7 @@ class CommonState:
     repr_offset_q: Tuple[float, float, float, float] = (0.0, 0.0, 0.0, 0.0)
 
     # ------------------------
-    # ATTITUDE_TARGET || Skip for now
+    # ATTITUDE_TARGET (not streamed)
     # ------------------------
     at_time_boot_ms: int = 0
     at_type_mask: int = 0
@@ -227,13 +227,12 @@ class CommonState:
     home_alt: int = 0
 
     # ------------------------
-    # EXTENDED_SYS_STATE # new jul
+    # EXTENDED_SYS_STATE
     # ------------------------
     vtol_state: int = 0       # MAV_VTOL_STATE_UNDEFINED
     landed_state: int = 1     # MAV_LANDED_STATE_ON_GROUND
 
 
-# /////////// commands /////////////
 
 # ============================
 # HISTORY BUFFER (last 10 HB + last 10 TELEM + last 10 CMDS)

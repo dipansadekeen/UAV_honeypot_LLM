@@ -4,6 +4,7 @@ __pycache__/
 venv/
 .env
 
+gcs/
 # Local credentials
 api_key.txt
 gemini_api.txt
@@ -14,3 +15,7 @@ logs/*
 llm_io_log.jsonl
 cmd_rx_log.jsonl
 llm_decision_log.jsonl
+
+# LLM mission generation outputs
+*mission_llm_generation*
+!results/data/mission_llm_generation_v2_final_mission_wise.csv

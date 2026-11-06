@@ -1,26 +1,13 @@
-# mission.py
+# module_mission.py
 import time
 from pymavlink import mavutil
 import math
-import time, math, os, csv
-from datetime import datetime
+
 MISSION_CMD_WAYPOINT = 16
 MISSION_CMD_TAKEOFF = 22
 MISSION_CMD_LAND = 21
 MISSION_CMD_RTL = 20
 MISSION_CMD_CHANGE_SPEED = 178
-
-# ///////////// log the attacker mission
-def next_mission_id(path="logs/mission_uploads.csv"):
-    try:
-        with open(path, newline="") as f:
-            return max((int(r["mission_id"]) for r in csv.DictReader(f)), default=0) + 1
-    except:
-        return 1
-# ///////////// log the attacker mission
-
-
-
 
 def _current_speed_mps(hp):
     with hp.state_lock:
@@ -47,19 +34,17 @@ def init_mission_state(hp):
         "last_tick": 0.0,
         "reach_threshold_deg": 0.00002,   # rough small threshold
         "alt_threshold_mm": 1500,
-        "reprompt_skip_counter": 0, # new
-        "reprompt_skip_limit": 3, # new
+        "reprompt_skip_counter": 0,
+        "reprompt_skip_limit": 3,
 
 
-        "home": None,       # add RTL.
-        "rtl_alt_mm": None, # add RTL.
+        "home": None,  # RTL
+        "rtl_alt_mm": None,
 
         "speed_threshold_mps": 0.3,
     }
 
 def handle_mission_count(hp, msg):
-    hp.mission_id = next_mission_id() #log
-    hp.mission_run_id = time.strftime("mission_%Y%m%d_%H%M%S") #log
     hp.mission_state["expected_count"] = int(getattr(msg, "count", 0))
     hp.mission_state["items"] = {}
     hp.mission_state["ready"] = False
@@ -108,76 +93,43 @@ def send_mission_ack(hp, ack_type=0):
     hp.send_mav(msg)
 
 
-# def finalize_mission_upload(hp):
-#     hp.mission_state["ready"] = True
-#     # current mission # new
-#     with hp.state_lock:
-#         hp.state.mission_seq = 0
-
-#     send_mission_ack(hp, 0)
-#     print("[MISSION] upload accepted", flush=True)
-
-def finalize_mission_upload(hp): #with log # new
-    if hp.mission_state["ready"]:
-        return
-
+def finalize_mission_upload(hp):
     hp.mission_state["ready"] = True
-
+    # current mission item
     with hp.state_lock:
         hp.state.mission_seq = 0
 
-    path = "logs/mission_uploads.csv"
-    os.makedirs("logs", exist_ok=True)
-    new = not os.path.exists(path)
-
-    cols = [
-        "mission_id", "mission_run_id", "time",
-        "seq", "command", "frame", "x", "y", "z",
-        "param1", "param2", "param3", "param4"
-    ]
-
-    uploaded = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    with open(path, "a", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=cols)
-        if new:
-            w.writeheader()
-
-        for seq in sorted(hp.mission_state["items"]):
-            w.writerow({
-                "mission_id": hp.mission_id,
-                "mission_run_id": hp.mission_run_id,
-                "time": uploaded,
-                **hp.mission_state["items"][seq]
-            })
-
     send_mission_ack(hp, 0)
-    print(
-        f"[MISSION] logged id={hp.mission_id} "
-        f"run={hp.mission_run_id}",
-        flush=True
-    )
+    print("[MISSION] upload accepted", flush=True)
 
 
-# def start_mission(hp):
-#     if not hp.mission_state["ready"]:
-#         print("[MISSION] start requested but not ready", flush=True)
-#         return
-#     hp.mission_state["active"] = True
-#     hp.mission_state["complete"] = False
-#     hp.mission_state["current_seq"] = 0
-#     hp.mission_state["stable_hits"] = 0
-#     print("[MISSION] started", flush=True)
-def start_mission(hp): # full new RTL version
+def start_mission(hp):
     if not hp.mission_state["ready"]:
         print("[MISSION] start requested but not ready", flush=True)
         return
+
+    # Add an internal final LAND after upload, without requesting another item.
+    count = hp.mission_state["expected_count"]
+    last_item = hp.mission_state["items"].get(count - 1)
+    if last_item is None:
+        return
+    if int(last_item["command"]) != MISSION_CMD_LAND:
+        hp.mission_state["items"][count] = {
+            "seq": count, "command": MISSION_CMD_LAND,
+            "frame": mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT_INT,
+            "x": 0, "y": 0, "z": 0.0,
+        }
+        hp.mission_state["expected_count"] = count + 1
+    hp.mission_state["landing_seq"] = None
+    hp.direct_cmd = hp.direct_params = None
+    with hp.override_lock:
+        hp.override_series.clear()
 
     with hp.state_lock:
         hp.state.base_mode = 157
         hp.state.custom_mode = 67371008
         hp.state.system_status = 4
-        # current mission # new
+        # current mission item
         hp.state.mission_seq = 0
 
     hp.mission_state["active"] = True
@@ -197,21 +149,9 @@ def get_current_mission_item(hp):
     return hp.mission_state["items"].get(seq)
 
 
-# def _target_from_item(item):
-#     return {
-#         "lat": int(item.get("x", 0)),
-#         "lon": int(item.get("y", 0)),
-#         "alt_mm": int(float(item.get("z", 0.0)) * 1000.0),
-#     }
-
-# ///////////////RTL
 def _target_from_item(hp, item):
     cmd = int(item.get("command", -1))
 
-    # old
-    # if cmd == MISSION_CMD_RTL and hp.mission_state.get("start_location"):
-    #     return hp.mission_state["start_location"]
-    #new
     if cmd == MISSION_CMD_RTL and hp.mission_state.get("home"):
         home = hp.mission_state["home"]
         return {
@@ -223,37 +163,22 @@ def _target_from_item(hp, item):
     return {
         "lat": int(item.get("x", 0)),
         "lon": int(item.get("y", 0)),
-        # "alt_mm": int(float(item.get("z", 0.0)) * 1000.0),
         "alt_mm": int((0.0 if math.isnan(float(item.get("z", 0.0))) else float(item.get("z", 0.0))) * 1000.0),
     }
-# ///////////////RTL
 
 
-# def execute_current_item_with_llm(hp, item):
-#     cmd = int(item["command"])
-
-#     params = {
-#         "param1": float(item.get("param1", 0.0)),
-#         "param2": float(item.get("param2", 0.0)),
-#         "param3": float(item.get("param3", 0.0)),
-#         "param4": float(item.get("param4", 0.0)),
-#         "param5": float(item.get("x", 0)),   # lat_int
-#         "param6": float(item.get("y", 0)),   # lon_int
-#         "param7": float(item.get("z", 0.0)), # alt
-#     }
-
-#     hp.active_cmd = cmd
-#     hp.active_params = params
-
-#     # hp.handle_command_heartbeat(cmd, params)
-#     hp.handle_command_telemetry(cmd, params)
-
-# # new | fix continuous ticking
 def execute_current_item_with_llm(hp, item):
     # if previous generated telemetry is still running, do nothing
     with hp.override_lock:
         if len(hp.override_series) > 0:
             return
+
+    cmd = int(item["command"])
+    if cmd == MISSION_CMD_LAND and hp.mission_state.get("landing_seq") == item["seq"]:
+        with hp.state_lock:
+            if (hp.state.landed_state == mavutil.mavlink.MAV_LANDED_STATE_ON_GROUND
+                    and 0 <= hp.state.gpi_relative_alt <= 500):
+                return
 
     # first eligible call -> prompt immediately
     # after that, skip 3 eligible calls, then prompt again
@@ -271,19 +196,7 @@ def execute_current_item_with_llm(hp, item):
 
     cmd = int(item["command"])
 
-    # ////// commented for RTL ///////
-    # params = {
-    #     "param1": float(item.get("param1", 0.0)),
-    #     "param2": float(item.get("param2", 0.0)),
-    #     "param3": float(item.get("param3", 0.0)),
-    #     "param4": float(item.get("param4", 0.0)),
-    #     "param5": float(item.get("x", 0)),
-    #     "param6": float(item.get("y", 0)),
-    #     "param7": float(item.get("z", 0.0)),
-    # }
-    # ////// commented for RTL ///////
-
-    # ////// RTL ///////
+    # Mission item parameters (RTL targets the saved home)
     x = float(item.get("x", 0))
     y = float(item.get("y", 0))
     z = float(item.get("z", 0.0))
@@ -307,14 +220,16 @@ def execute_current_item_with_llm(hp, item):
         "param6": y,
         "param7": z,
     }
-    # ////// RTL ///////
 
     hp.active_cmd = cmd
     hp.active_params = params
-    # hp.handle_command_heartbeat(cmd, params)
 
-    # keep QGC flying/landing state consistent during uploaded missions # new jul
-    hp.apply_qgc_flight_state_from_cmd(cmd, params)
+    # keep QGC flying/landing state consistent during uploaded missions
+    # Re-prompting LAND must not restart its landing-state timer.
+    if cmd != MISSION_CMD_LAND or hp.mission_state.get("landing_seq") != item["seq"]:
+        hp.apply_qgc_flight_state_from_cmd(cmd, params)
+        if cmd == MISSION_CMD_LAND:
+            hp.mission_state["landing_seq"] = item["seq"]
 
     hp.handle_command_telemetry(cmd, params)
 
@@ -324,13 +239,13 @@ def execute_current_item_with_llm(hp, item):
 
 
 def is_step_complete(hp, item):
-    # target = _target_from_item(item)
-    target = _target_from_item(hp, item) # for RTL
+    target = _target_from_item(hp, item)
 
     with hp.state_lock:
         curr_lat = int(getattr(hp.state, "gpi_lat", 0))
         curr_lon = int(getattr(hp.state, "gpi_lon", 0))
         curr_alt = int(getattr(hp.state, "gpi_relative_alt", 0))
+        landed = getattr(hp.state, "landed_state", 0)
 
     lat_ok = abs(curr_lat - target["lat"]) <= int(hp.mission_state["reach_threshold_deg"] * 1e7)
     lon_ok = abs(curr_lon - target["lon"]) <= int(hp.mission_state["reach_threshold_deg"] * 1e7)
@@ -343,20 +258,19 @@ def is_step_complete(hp, item):
     elif cmd == MISSION_CMD_TAKEOFF:
         ok = alt_ok
     elif cmd == MISSION_CMD_LAND:
-        ok = curr_alt <= 500
+        with hp.override_lock:
+            telemetry_done = not hp.override_series
+        ok = (landed == mavutil.mavlink.MAV_LANDED_STATE_ON_GROUND
+              and 0 <= curr_alt <= 500 and telemetry_done)
 
-    # ////// for RTL ///////
-    elif cmd == MISSION_CMD_RTL: # RTL
+    elif cmd == MISSION_CMD_RTL:
         ok = lat_ok and lon_ok
-    # ////// for RTL ///////
 
-    # ////// for new speed ///////
 
     elif cmd == MISSION_CMD_CHANGE_SPEED:
         target_speed = float(item.get("param2", 0.0))  # speed in m/s
         curr_speed = _current_speed_mps(hp)
         ok = abs(curr_speed - target_speed) <= hp.mission_state.get("speed_threshold_mps", 0.3)
-    # ////// for new speed ///////
 
     else:
         ok = lat_ok and lon_ok and alt_ok
@@ -374,23 +288,21 @@ def advance_mission_step(hp):
     hp.mission_state["stable_hits"] = 0
     hp.mission_state["reprompt_skip_counter"] = 0
     print(f"[MISSION] advance -> seq={hp.mission_state['current_seq']}", flush=True)
-    # current mission # new
+    # current mission item
     with hp.state_lock:
         hp.state.mission_seq = hp.mission_state["current_seq"]
     print(f"[MISSION] advance -> seq={hp.mission_state['current_seq']}", flush=True)
 
-# def finish_mission(hp):
-#     hp.mission_state["active"] = False
-#     hp.mission_state["complete"] = True
-
-#     # disarm
-#     with hp.state_lock:
-#         hp.state.base_mode = int(hp.state.base_mode) & (~0x80)
-#         hp.state.system_status = 3
-
-#     print("[MISSION] complete", flush=True)
-
 def finish_mission(hp):
+    # Only release mission control after the simulated touchdown.
+    with hp.state_lock:
+        if (hp.state.landed_state != mavutil.mavlink.MAV_LANDED_STATE_ON_GROUND
+                or not 0 <= hp.state.gpi_relative_alt <= 500):
+            return
+    with hp.override_lock:
+        hp.override_series.clear()
+    hp.active_cmd = hp.active_params = None
+    hp.direct_cmd = hp.direct_params = None
     hp.mission_state["active"] = False
     hp.mission_state["complete"] = True
 
@@ -413,7 +325,9 @@ def start_or_tick_mission(hp):
 
     item = get_current_mission_item(hp)
     if item is None:
-        finish_mission(hp)
+        hp.mission_state["active"] = False
+        hp.mission_state["ready"] = False
+        print("[MISSION] stopped: missing mission item", flush=True)
         return
 
     execute_current_item_with_llm(hp, item)
@@ -424,14 +338,14 @@ def start_or_tick_mission(hp):
     if hp.mission_state["current_seq"] >= hp.mission_state["expected_count"]:
         finish_mission(hp)
 
-# new 2
 def maybe_start_uploaded_mission(hp):
-    if not hp.mission_state["ready"] or hp.mission_state["active"]:
+    if (not hp.mission_state["ready"] or hp.mission_state["active"]
+            or hp.mission_state["complete"]):
         return
 
     with hp.state_lock:
         cm = int(getattr(hp.state, "custom_mode", 0))
 
-    # replace this with your actual mission-mode custom_mode
+    # PX4 AUTO.MISSION custom_mode
     if cm == 67371008:
         start_mission(hp)

@@ -4,7 +4,7 @@ import time
 from typing import List, Dict, Any, Optional
 from pymavlink import mavutil
 
-from module_historybuffer_commonstate import CommonState
+from module_history_buffer import CommonState
 # ============================
 # RAG LOADER (command transitions)
 # ============================
@@ -62,19 +62,18 @@ ACK_RESULT_MAP = {
     "UNSUPPORTED": mavutil.mavlink.MAV_RESULT_UNSUPPORTED,
     "TEMPORARILY_REJECTED": mavutil.mavlink.MAV_RESULT_TEMPORARILY_REJECTED,
 }
-#  ////// commands ends ///////
 
 # ============================================================
-# TIME UPDATE FUNCTION (from your code)
+# TIME UPDATE
 # ============================================================
 
 def update_time_fields(state: CommonState, boot_time: float):
     dt = max(0.0, time.monotonic() - boot_time)
     state.time_boot_ms = int(dt * 1000)
-    state.time_usec = int(dt * 1_000_000.0)   # <-- ADDing this for telemetry GPS
+    state.time_usec = int(dt * 1_000_000.0)  # used by GPS_RAW_INT
 
 # ============================================================
-# HEARTBEAT BUILDER (from your code)
+# HEARTBEAT BUILDER
 # ============================================================
 
 def make_heartbeat(mav, state: CommonState):
@@ -100,7 +99,7 @@ def extract_json(text: str):
         return None
 
 
-# ////////// telemetry //////////
+# Telemetry message builders
 def make_sys_status(mav, s: CommonState):
     return mav.sys_status_encode(
         int(s.onboard_control_sensors_present),
@@ -166,14 +165,12 @@ def make_vfr_hud(mav, s: CommonState):
         float(s.vfr_climb),
     )
 
-# new jul
 def make_extended_sys_state(mav, s: CommonState):
     return mav.extended_sys_state_encode(
         int(getattr(s, "vtol_state", 0)),
         int(getattr(s, "landed_state", 1)),
     )
 
-# new
 def make_battery_status(mav, s: CommonState):
     return mav.battery_status_encode(
         0,
@@ -184,11 +181,10 @@ def make_battery_status(mav, s: CommonState):
         -1,
         -1,
         -1,
-        int(s.battery_remaining)   # 👈 reuse existing value
+        int(s.battery_remaining)  # reuse existing value
     )
 
 
-# new 2
 def make_home_position(mav, s: CommonState):
     if not s.home_initialized and s.gpi_lat != 0 and s.gpi_lon != 0:
         s.home_lat = s.gpi_lat
@@ -206,7 +202,6 @@ def make_home_position(mav, s: CommonState):
     )
 
 
-# mission helper | current mission # new
 def make_mission_current(mav, s: CommonState):
     return mav.mission_current_encode(
         int(s.mission_seq)
@@ -218,45 +213,17 @@ TELEM_BUILDERS = {
     "GLOBAL_POSITION_INT": make_global_position_int,
     "ATTITUDE": make_attitude,
     "VFR_HUD": make_vfr_hud,
-    "BATTERY_STATUS": make_battery_status, #new
-    "HOME_POSITION": make_home_position, # new 2
-    "MISSION_CURRENT": make_mission_current, # current mission # new
+    "BATTERY_STATUS": make_battery_status,
+    "HOME_POSITION": make_home_position,
+    "MISSION_CURRENT": make_mission_current,
 
-    # QGC uses this to decide flying/landing UI state  | new jul
+    # QGC uses this to decide the flying/landing UI state
     "EXTENDED_SYS_STATE": make_extended_sys_state,
 }
-# ////////// telemetry //////////
-
-# # ////////////// for commands /////////////
-# def load_rag_transitions(self, path: str) -> None:
-#     self.rag_transitions = []
-#     with open(path, "r") as f:
-#         for line in f:
-#             line = line.strip()
-#             if not line:
-#                 continue
-#             try:
-#                 self.rag_transitions.append(json.loads(line))
-#             except Exception:
-#                 continue
-
-# def rag_retrieve(self, command_id: int, k: int = 3) -> list:
-#     # simplest: filter by command id/name field that exists in your jsonl
-#     out = []
-#     for ex in getattr(self, "rag_transitions", []):
-#         cmd = ex.get("command", {})
-#         # adjust this based on your dataset field names:
-#         ex_id = cmd.get("id") or cmd.get("command") or cmd.get("name")
-#         if ex_id == command_id:
-#             out.append(ex)
-#         if len(out) >= k:
-#             break
-#     return out
-
-#  /////////// commands //////////
 
 
-# retrieval for commands////////
+
+# Retrieval for commands
 def extract_heartbeat_transition_examples(rows: List[Dict[str, Any]], command_id: int, k: int = 2) -> List[Dict[str, Any]]:
     """
     Extract command-centered heartbeat transition examples:
@@ -356,7 +323,7 @@ def extract_heartbeat_transition_examples(rows: List[Dict[str, Any]], command_id
 
     return out
 
-# helpers: handling for telemetry//////////
+# Telemetry field groups
 TELEM_GROUPS = {
 
     "GLOBAL_POSITION_INT": ["lat", "lon", "alt", "relative_alt", "vx", "vy", "vz", "hdg", ],
@@ -482,7 +449,7 @@ def canonicalize_followup_message(msg: dict) -> dict:
 
 def canonicalize_internal_history_fields(fields: dict) -> dict:
     """
-    Convert your live HistoryBuffer flat internal fields into grouped canonical format.
+    Convert the live HistoryBuffer flat internal fields into grouped canonical format.
     """
     if not isinstance(fields, dict):
         return {}
@@ -575,7 +542,6 @@ def translate_canonical_series_to_internal(series: list) -> list:
 
 
 
-#  /////////// command_ack //////////
 # ----------------------------------------
 # Rule based ACK logic
 # ----------------------------------------
@@ -634,7 +600,7 @@ def state_automata_ack(cmd, params, state, *, with_effect=False):
         state, "landed_state", mav.MAV_LANDED_STATE_UNDEFINED
     ))
 
-    # Observe the current state using your existing classification.
+    # Observe the current state from the vehicle state.
     if not math.isfinite(alt):
         phase = BAD
     elif not armed:
@@ -722,8 +688,7 @@ def state_automata_ack(cmd, params, state, *, with_effect=False):
                 "already disarmed; no new action", False
             ),
             (
-                # (AG,), lambda: alt < 0.2, 
-                (AG,), lambda: alt <= 0.013,  # old: alt < 0.2
+                (AG,), lambda: alt <= 0.013,
                 DG, ACCEPT,
                 "{source} -> {target}", True
             ),
@@ -757,14 +722,12 @@ def state_automata_ack(cmd, params, state, *, with_effect=False):
                 "takeoff already in progress", False
             ),
             (
-                # (AG,), lambda: alt < 0.3 and target_alt <= 0.5,
-                 (AG,), lambda: alt <= 0.016 and target_alt <= 0.448,  # old: alt < 0.3 and target_alt <= 0.5
+                 (AG,), lambda: alt <= 0.016 and target_alt <= 0.448,
                 None, ACCEPT,
                 "low takeoff target acknowledged; no flight", False
             ),
             (
-                # (AG,), lambda: alt < 0.3,
-                (AG,), lambda: alt <= 0.016,  # old: alt < 0.3
+                (AG,), lambda: alt <= 0.016,
                 TO, ACCEPT,
                 "{source} -> {target}", True
             ),
@@ -802,8 +765,7 @@ def state_automata_ack(cmd, params, state, *, with_effect=False):
                 "{source}: RTL acknowledged; no flight", False
             ),
             (
-                # (TO, FL), lambda: alt > 0.5,
-                (TO, FL), lambda: alt >= 1.465,  # old: alt > 0.5
+                (TO, FL), lambda: alt >= 1.465,
                 FL, ACCEPT,
                 "{source} -> RTL", True
             ),
@@ -884,7 +846,6 @@ def state_automata_ack(cmd, params, state, *, with_effect=False):
 
     raise RuntimeError("Automaton has no matching transition")
 
-#  /////////// command_ack //////////
 
 def init_home_once(state: CommonState):
     if not state.home_initialized and state.gpi_lat != 0 and state.gpi_lon != 0:

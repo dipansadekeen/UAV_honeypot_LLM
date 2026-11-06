@@ -19,7 +19,7 @@ python module_main.py
 
 Set `OLLAMA_URL` and `OLLAMA_MODEL` to a running Ollama server and an available model. The current network configuration listens for MAVLink on `127.0.0.1:14551` and sends to a ground control station on `127.0.0.1:14550`.
 
-The command heartbeat and telemetry system prompts are in `prompts/`. The example data loaded at startup is in `out/`.
+The command heartbeat and telemetry system prompts are in `prompts/`. The example data loaded at startup is in `examples/`.
 
 ## Optional cloud credentials
 

@@ -1,6 +1,6 @@
 # module_cloud_models.py
 
-import time, requests
+import os, time, requests
 from pathlib import Path
 
 from google import genai
@@ -12,15 +12,28 @@ from module_helper_functions import extract_json
 GEMINI_MODEL_NAME = "gemini-2.5-flash"
 
 
-def load_gemini_key(key_file="gemini_api.txt"):
+def _load_secret(env_var, key_file):
+    """Return a credential from the environment, else from a local (git-ignored) file."""
+    value = os.environ.get(env_var, "").strip()
+    if value:
+        return value
     key_path = Path(__file__).resolve().parent / key_file
+    try:
+        return key_path.read_text().strip()
+    except OSError:
+        raise RuntimeError(f"Set {env_var} or create {key_file}")
 
-    with open(key_path, "r") as f:
-        return f.read().strip()
+
+_gemini_client = None
 
 
-GEMINI_API_KEY = load_gemini_key()
-client = genai.Client(api_key=GEMINI_API_KEY)
+def _get_gemini_client():
+    """Create the Gemini client lazily so importing this module needs no credentials."""
+    global _gemini_client
+    if _gemini_client is None:
+        _gemini_client = genai.Client(api_key=_load_secret("GEMINI_API_KEY", "gemini_api.txt"))
+    return _gemini_client
+
 
 def call_gemini_cloud(
     system_text: str,
@@ -33,7 +46,7 @@ def call_gemini_cloud(
     t0 = time.monotonic()
 
     try:
-        response = client.models.generate_content(
+        response = _get_gemini_client().models.generate_content(
             model=model_name,
             contents=user_text,
             config=types.GenerateContentConfig(
@@ -84,16 +97,15 @@ def call_gemini_cloud(
 
 def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "general") -> str:
     t0 = time.monotonic()
-    model_name = "gemma4:31b-cloud" 
-    # model_name = "gpt-oss:120b-cloud" 
-
+    # Evaluated cloud models: nemotron-3-super:cloud, nemotron-3-nano:30b-cloud,
+    # gpt-oss:120b-cloud, gpt-oss:20b-cloud, gemma4:31b-cloud
+    model_name = os.environ.get("OLLAMA_CLOUD_MODEL", "nemotron-3-super:cloud")
 
     try:
-        with open("api_key.txt", "r") as f:
-            api_key = f.read().strip()
+        api_key = _load_secret("OLLAMA_API_KEY", "api_key.txt")
 
         payload = {
-            "model": model_name,  #new
+            "model": model_name,
             "messages": [
                 {"role": "system", "content": system_text},
                 {"role": "user", "content": user_text}
@@ -124,8 +136,8 @@ def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "genera
         raw = r.json()["message"]["content"]
         dt_ms = (time.monotonic() - t0) * 1000.0
 
-        self.last_llm_latency_ms = dt_ms # new
-        self.last_llm_model_name = model_name #new
+        self.last_llm_latency_ms = dt_ms
+        self.last_llm_model_name = model_name
 
         parsed = extract_json(raw)
         self.log_llm_io(tag, system_text, user_text, raw, parsed, dt_ms)
@@ -136,7 +148,7 @@ def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "genera
         print(f"[LLM CLOUD FAIL {tag}] {e}", flush=True)
         return ""
 
-# local_deployed
+# Local Ollama
 def call_ollama(self, system_text: str, user_text: str, tag: str = "general") -> str:
     payload = {
         "model": self.OLLAMA_MODEL,
@@ -145,7 +157,7 @@ def call_ollama(self, system_text: str, user_text: str, tag: str = "general") ->
             {"role": "user", "content": user_text}
         ],
         "stream": False,
-        "format": "json",  #  FORCE VALID JSON
+        "format": "json",  # force valid JSON
         "options": {
             "temperature": 0,
             "top_p": 0.9
@@ -162,8 +174,8 @@ def call_ollama(self, system_text: str, user_text: str, tag: str = "general") ->
     raw = r.json()["message"]["content"]
     dt_ms = (time.monotonic() - t0) * 1000.0
 
-    self.last_llm_latency_ms = dt_ms # new
-    self.last_llm_model_name = self.OLLAMA_MODEL # new
+    self.last_llm_latency_ms = dt_ms
+    self.last_llm_model_name = self.OLLAMA_MODEL
 
     parsed = extract_json(raw)  # may be None
     self.log_llm_io(tag, system_text, user_text, raw, parsed, dt_ms)

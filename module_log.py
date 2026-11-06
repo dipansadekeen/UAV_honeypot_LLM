@@ -91,8 +91,8 @@ def log_mission_llm_csv(hp, command_id, command_name, params, user_payload, pars
         "llm_call_id",
         "llm_step_index",
         "dt",
-        "llm_latency_ms", # new
-        "llm_model_name", # new
+        "llm_latency_ms",
+        "llm_model_name",
 
 
         "input_hb_base_mode",
@@ -203,8 +203,8 @@ def log_mission_llm_csv(hp, command_id, command_name, params, user_payload, pars
                 "llm_call_id": llm_call_id,
                 "llm_step_index": i,
                 "dt": step.get("dt"),
-                "llm_latency_ms": getattr(hp, "last_llm_latency_ms", None), # new
-                "llm_model_name": getattr(hp, "last_llm_model_name", None), # new
+                "llm_latency_ms": getattr(hp, "last_llm_latency_ms", None),
+                "llm_model_name": getattr(hp, "last_llm_model_name", None),
 
                 **input_state,
 

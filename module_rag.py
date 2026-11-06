@@ -1,4 +1,3 @@
-# """
 # module_rag.py
 
 from typing import List, Dict, Any, Optional
@@ -97,7 +96,7 @@ def retrieve_heartbeat_examples_from_sequences(rows: List[Dict[str, Any]], comma
     return out
 
 
-# ///// Step 2 — retriever from cmd_transition.jsonl
+# Telemetry examples from cmd_transition.jsonl
 def retrieve_telemetry_examples_from_cmd_transition(rows, command_id: int, k: int = 2):
     """
     Retrieve telemetry transition examples from cmd_transition.jsonl.
@@ -160,7 +159,7 @@ def retrieve_telemetry_examples_from_cmd_transition(rows, command_id: int, k: in
 
 
 
-# ///// Step 3 — retriever from px4_command_sequences.jsonl ## updated retriever can include up to 5 of each telemetry type, maximum 25 telemetry messages total.
+# Telemetry examples from px4_command_sequences.jsonl (up to 5 per telemetry type)
 def retrieve_telemetry_examples_from_sequences(rows, command_id: int, k: int = 2):
     """
     Retrieve followup telemetry examples from px4_command_sequences.jsonl.
@@ -186,23 +185,7 @@ def retrieve_telemetry_examples_from_sequences(rows, command_id: int, k: int = 2
         if cmd_id != int(command_id):
             continue
 
-        # future_telem = []
-        # followups = row.get("followups", [])
-
-        # if isinstance(followups, list):
-        #     for item in followups:
-        #         if not isinstance(item, dict):
-        #             continue
-
-        #         grouped = canonicalize_followup_message(item)
-
-        #         if grouped:
-        #             future_telem.append(grouped)
-
-        #         if len(future_telem) >= 5:
-        #             break
-        
-        # trying to update with 5x of each message type instead of top 5 whatever it gets || jul 2026
+        # keep up to 5 followup messages of each telemetry type
 
         future_telem = []
         counts = {name: 0 for name in TELEM_GROUPS}
@@ -226,7 +209,6 @@ def retrieve_telemetry_examples_from_sequences(rows, command_id: int, k: int = 2
 
                 if all(count >= 5 for count in counts.values()):
                     break
-        # /////////////////
 
         ex = {
             "command": {
