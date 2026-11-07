@@ -157,7 +157,13 @@ class LLMHoneypot:
     # ---------------------------
 
     def send_mav(self, msg):
+        if "ACK" in msg.get_type(): self._log_mav("tx", msg)
         self.connection.send_mav(msg)
+
+    def _log_mav(self, direction, msg):
+        """Append one MAVLink message (rx request or tx ACK) to logs/mavlink_rx_tx.jsonl."""
+        with open("logs/mavlink_rx_tx.jsonl", "a") as f:
+            f.write(json.dumps({"ts": time.time(), "dir": direction, **msg.to_dict()}, default=str) + "\n")
 
     # Heartbeat
 
@@ -1024,7 +1030,7 @@ class LLMHoneypot:
             # Gemini: result = call_gemini_cloud(system_text, user_text, tag="telemetry_command",
             #                                    log_fn=self.log_llm_io, return_meta=True)
             #         raw = result["raw"]; parsed = result["parsed"] or extract_json(raw)
-            raw = call_ollama(self, system_text, user_text, tag="telemetry_command")
+            raw = call_ollama(self, system_text, user_text, tag="telemetry_command")  # local model (active)
 
 
             if token != self.cmd_token:  # stale response: a newer command arrived
@@ -1433,7 +1439,7 @@ class LLMHoneypot:
                 return
 
 
-            print(f"[HOME STORED] lat={self.home['lat']} lon={self.home['lon']}",flush=True)
+            # print(f"[HOME STORED] lat={self.home['lat']} lon={self.home['lon']}",flush=True) #temp
 
             # QGC flight-state update
             self.apply_qgc_flight_state_from_cmd(cmd, params)
@@ -1518,4 +1524,5 @@ class LLMHoneypot:
                 continue
 
             for msg in messages:
+                if msg.get_type() != "HEARTBEAT": self._log_mav("rx", msg)
                 self.handle_inbound_msg(msg)

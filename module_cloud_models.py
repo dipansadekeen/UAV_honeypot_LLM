@@ -99,7 +99,7 @@ def call_ollama_cloud(self, system_text: str, user_text: str, tag: str = "genera
     t0 = time.monotonic()
     # Evaluated cloud models: nemotron-3-super:cloud, nemotron-3-nano:30b-cloud,
     # gpt-oss:120b-cloud, gpt-oss:20b-cloud, gemma4:31b-cloud
-    model_name = os.environ.get("OLLAMA_CLOUD_MODEL", "nemotron-3-super:cloud")
+    model_name = os.environ.get("OLLAMA_CLOUD_MODEL", "gpt-oss:120b-cloud")
 
     try:
         api_key = _load_secret("OLLAMA_API_KEY", "api_key.txt")

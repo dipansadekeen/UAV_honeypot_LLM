@@ -132,7 +132,10 @@ allowed field groups, finite numeric values, integer fields, battery presence,
 and armed-bit preservation. It is a schema checker, not a complete physical
 validator or the missing original scheduling/runtime engine.
 
-No raw HP/SITL/HITL logs, request token logs, production EFSM code, or retrieved
-few-shot example database were attached. Optional log tools cannot reproduce
-Figure 9 without those recordings; token Table V and online behavior cannot
-be independently reproduced from the bundled inputs.
+The production EFSM code and the few-shot example database are at the
+repository root (`module_helper_functions.py`, `examples/`). The PX4 SITL ACK
+and heartbeat captures used to build the EFSM are in `efsm/`, and
+`efsm/check_efsm.py` confirms that the EFSM reproduces all 117 PX4 test-case
+ACKs. Raw HP/SITL/HITL `.tlog` recordings and request token logs are not
+included, so the optional log tools cannot reproduce Figure 9 and token
+Table V cannot be independently reproduced from the bundled inputs.

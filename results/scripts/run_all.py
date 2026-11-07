@@ -12,6 +12,7 @@ from evaluation.latency import evaluate_latency
 from evaluation.trajectory import evaluate_trajectory
 from plotting.results import plot_llm,plot_hitl,plot_latency
 from plotting.missions import prepare_missions,plot_missions
+from plotting.velocity import plot_velocity_boxplots
 
 def sha256(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -46,6 +47,7 @@ def main():
         missions=json.loads(args.missions.read_text()) if args.missions else None
         avg,default=prepare_missions(args.llm,args.out/'missions',missions)
         plot_missions(avg,default,args.out/'missions/figures')
+        plot_velocity_boxplots(args.llm,args.out/'velocity/figures',missions)
     manifest={'python':platform.python_version(),'numpy':numpy.__version__,
         'pandas':pandas.__version__,'matplotlib':matplotlib.__version__,
         'inputs':{str(path.resolve()):sha256(path) for path in [args.llm,args.hitl]},

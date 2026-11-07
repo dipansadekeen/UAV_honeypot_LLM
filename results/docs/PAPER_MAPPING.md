@@ -11,6 +11,7 @@
 | Figure 8a: velocity | `scripts/plot_missions.py` | `missions/figures/fig08a_velocity_components.*` |
 | Figure 8b: trajectory | `scripts/plot_missions.py` | `missions/figures/fig08b_trajectory_2d.*` |
 | Figure 8c: heading | `scripts/plot_missions.py` | `missions/figures/fig08c_heading.*` |
+| Generated velocity distributions (vx, vy, vz box plots) | `scripts/plot_velocity.py` | `velocity/figures/{vx,vy,vz}_boxplot.*`, `velocity/velocity_summary.csv` |
 | Figure 9: connectivity | `scripts/analyze_connectivity.py` | Requires HP and SITL tlogs |
 | Figure 10: latency | `scripts/analyze_latency.py` | `latency/figures/fig10_model_latency.*` |
 | HITL calibration/comparison | `scripts/evaluate_hitl.py` | `hitl/component_compliance_fractions.csv` |

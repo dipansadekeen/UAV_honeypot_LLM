@@ -12,7 +12,7 @@ Use Python 3.10 or newer. From the repository root:
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-export OLLAMA_URL=http://127.0.0.1:11434   # Ollama server address
+export OLLAMA_URL=http://192.168.1.100:11434   # Ollama (LLM) server address
 export OLLAMA_MODEL=gpt-oss:20b            # any model pulled on that server, e.g.
                                            # gpt-oss:20b, gpt-oss:120b, nemotron-3-nano:30b,
                                            # nemotron-3-super, gemma4:31b
@@ -22,6 +22,14 @@ python module_main.py
 Set `OLLAMA_URL` and `OLLAMA_MODEL` to a running Ollama server and an available model. The current network configuration listens for MAVLink on `127.0.0.1:14551` and sends to a ground control station on `127.0.0.1:14550`.
 
 The command heartbeat and telemetry system prompts are in `prompts/`. The example data loaded at startup is in `examples/`.
+
+## Command acknowledgments (EFSM)
+
+Command ACKs are decided by an extended finite-state machine, `state_automata_ack` in `module_helper_functions.py`. It was built from PX4 SITL captures, which are in `results/efsm/` together with a checker that needs no PX4:
+
+```bash
+python results/efsm/check_efsm.py   # expected: 117/117 PX4 test rows match
+```
 
 ## Evaluated models
 
@@ -38,7 +46,7 @@ The paper evaluates five models, all served through Ollama Cloud:
 To run the honeypot with one of these models, set the tag and switch the heartbeat and telemetry handlers in `module_llmhoneypot.py` from `call_ollama` to `call_ollama_cloud` (the alternative call is in a comment above each one):
 
 ```bash
-export OLLAMA_CLOUD_MODEL=gpt-oss:20b-cloud
+export OLLAMA_CLOUD_MODEL=gpt-oss:120b-cloud   # default; any tag from the table above
 export OLLAMA_API_KEY=<your Ollama API key>
 ```
 

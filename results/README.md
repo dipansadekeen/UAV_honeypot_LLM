@@ -35,6 +35,8 @@ example run is already included there.
 | `prompts/` | Appendix prompt builders and offline response validation |
 | `scripts/` | Command-line entry points |
 | `tests/` | Numerical parity and boundary-condition checks |
+| `efsm/` | PX4 SITL ACK/heartbeat ground truth for the EFSM and a checker (`efsm/README.md`) |
+| `test_harness/` | Deception-test mission plan and a GCS dashboard for driving the honeypot (`test_harness/README.md`) |
 | `data/` | The two supplied CSV inputs, copied without modification |
 | `reference/` | Results captured independently by executing the original notebook cells |
 | `results/notebook/` | Verified example results and generated figures |
@@ -47,6 +49,7 @@ python scripts/evaluate_llm.py
 python scripts/evaluate_hitl.py
 python scripts/analyze_latency.py
 python scripts/plot_missions.py
+python scripts/plot_velocity.py
 ```
 
 Each command accepts `--input` and `--out`; use `--help` for its other options.
@@ -126,11 +129,16 @@ functions; they append structured JSON context to the Appendix A templates.
 and armed-bit preservation. The PDF transcription is preserved in
 `docs/appendix_prompt_transcription.txt`.
 
-This is an **evaluation and prompt artifact**. The provided attachments do not
-contain the original UDP honeypot engine, EFSM acknowledgment implementation,
-provider client, scheduling/state-buffer implementation, or few-shot example
-database. Those components are therefore not presented as recovered code.
-Live response generation and end-to-end honeypot deployment require the
-original runtime sources and examples. Table V token counts also require
-request/token logs that were not supplied.
+This folder is the **evaluation and prompt artifact**. The honeypot runtime
+(UDP engine, EFSM acknowledgment implementation, LLM provider client,
+scheduling and state buffers) and the few-shot example database are at the
+repository root (`module_*.py`, `examples/`); see the top-level README to run
+it. `efsm/` checks the EFSM against PX4 SITL ground truth:
+
+```bash
+python -m pip install -r requirements-tlog.txt
+python efsm/check_efsm.py        # expected: 117/117 PX4 test rows match
+```
+
+Table V token counts require request/token logs that are not included.
 
