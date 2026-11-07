@@ -1,0 +1,58 @@
+Model,Operation,Case,Case ID,H-Speed,V-Speed,Vel-Disp,Gnd-Disp,Vert-Disp,Heading,Yaw,Roll,Pitch,Mean Compliance,Applicable_Checks,Heartbeat_Source,Heartbeat_OK,Heartbeat_Compliance,HB_Base_Mode_OK,HB_Custom_Mode_OK,HB_System_Status_OK,Telemetry_Present,Telemetry_OK,Score_Profile,Passing_Checks,Breached_Checks,SA,LC,Class
+gemma4,TAKEOFF,gemma-ab3-failed | seq 0,0,1.0,0.2,1.0,1.0,0.125,,1.0,1.0,1.0,0.790625,53,N/A,,,,,,True,,notebook,38,15,True,False,SANLC
+gemma4,WP+ALT,gemma-ab3-failed | seq 1,1,0.43333333333333335,0.975,0.6041666666666666,0.53125,0.9895833333333334,0.956140350877193,1.0,0.9895833333333334,0.9479166666666666,0.825219298245614,954,N/A,,,,,,True,,notebook,788,166,True,False,SANLC
+gemma4,WP+ALT,gemma-ab3-failed | seq 2,2,0.3333333333333333,0.28,0.2,0.26666666666666666,0.9333333333333333,0.7866666666666666,1.0,1.0,1.0,0.6444444444444444,600,N/A,,,,,,True,,notebook,384,216,False,False,FANLC
+gpt-oss-120b,TAKEOFF,120b-ab3 | seq 0,3,1.0,1.0,1.0,1.0,0.875,1.0,1.0,1.0,1.0,0.9861111111111112,51,N/A,,,,,,True,,notebook,50,1,True,True,SALC
+gpt-oss-120b,WP+ALT,120b-ab3 | seq 1,4,0.9069767441860465,1.0,0.8888888888888888,0.8787878787878788,1.0,0.9090909090909091,1.0,1.0,0.9583333333333334,0.9491197504763397,310,N/A,,,,,,True,,notebook,293,17,True,True,SALC
+gpt-oss-120b,WP+ALT,120b-ab3 | seq 2,5,1.0,1.0,0.0,,1.0,1.0,1.0,,,0.8333333333333334,24,N/A,,,,,,True,,notebook,20,4,True,False,SANLC
+gpt-oss-120b,WP+SPEED,120b-ab3 | seq 4,6,0.7619047619047619,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.9735449735449736,156,N/A,,,,,,True,,notebook,151,5,True,True,SALC
+gpt-oss-120b,RTL,120b-ab3 | seq 5,7,1.0,1.0,0.6666666666666666,0.6666666666666666,1.0,0.7857142857142857,1.0,1.0,1.0,0.9021164021164021,103,N/A,,,,,,True,,notebook,92,11,True,True,SALC
+gpt-oss-120b,LAND,120b-ab3 | seq 6,8,1.0,0.5,1.0,1.0,0.5,,1.0,1.0,1.0,0.875,46,N/A,,,,,,True,,notebook,37,9,True,True,SALC
+nemotron-super,TAKEOFF,nemo-super-ab3 | seq 0,9,1.0,0.4,1.0,1.0,0.5,,1.0,1.0,1.0,0.8625,70,N/A,,,,,,True,,notebook,60,10,True,False,SANLC
+nemotron-super,WP+ALT,nemo-super-ab3 | seq 1,10,1.0,0.875,0.90625,0.90625,1.0,0.7142857142857143,1.0,1.0,1.0,0.9335317460317462,311,N/A,,,,,,True,,notebook,290,21,True,True,SALC
+nemotron-super,WP+ALT,nemo-super-ab3 | seq 2,11,1.0,0.6571428571428571,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.9619047619047618,276,N/A,,,,,,True,,notebook,264,12,True,True,SALC
+nemotron-super,WP+SPEED,nemo-super-ab3 | seq 4,12,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,192,N/A,,,,,,True,,notebook,192,0,True,True,SALC
+nemotron-super,RTL,nemo-super-ab3 | seq 5,13,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.95,0.9944444444444444,427,N/A,,,,,,True,,notebook,425,2,True,True,SALC
+nemotron-super,LAND,nemo-super-ab3 | seq 6,14,1.0,0.0625,1.0,1.0,0.07692307692307693,,1.0,1.0,1.0,0.7674278846153846,86,N/A,,,,,,True,,notebook,59,27,True,False,SANLC
+gpt-oss-20b,TAKEOFF,20b-ab3 | seq 0,15,1.0,0.6,,,0.625,,1.0,,,0.80625,38,N/A,,,,,,True,,notebook,24,14,True,True,SALC
+gpt-oss-20b,WP+ALT,20b-ab3 | seq 1,16,0.7647058823529411,0.9019607843137255,0.8181818181818182,0.9,0.9,0.7272727272727273,1.0,0.975,0.9,0.8763468013468014,416,N/A,,,,,,True,,notebook,363,53,True,True,SALC
+gpt-oss-20b,WP+ALT,20b-ab3 | seq 2,17,1.0,0.6666666666666666,0.5833333333333334,0.5833333333333334,0.6666666666666666,0.6428571428571429,1.0,0.6666666666666666,0.8333333333333334,0.738095238095238,119,N/A,,,,,,True,,notebook,89,30,True,True,SALC
+gpt-oss-20b,WP+SPEED,20b-ab3 | seq 4,18,0.9615384615384616,1.0,0.5,0.4,1.0,0.44,1.0,0.8,1.0,0.7890598290598292,211,N/A,,,,,,True,,notebook,168,43,True,False,SANLC
+gpt-oss-20b,RTL,20b-ab3 | seq 5,19,0.9242424242424242,1.0,0.7333333333333333,0.6923076923076923,1.0,0.9285714285714286,1.0,1.0,1.0,0.9198283198283198,544,N/A,,,,,,True,,notebook,502,42,True,True,SALC
+gpt-oss-20b,LAND,20b-ab3 | seq 6,20,1.0,0.1,1.0,1.0,0.0,,1.0,1.0,1.0,0.7625,49,N/A,,,,,,True,,notebook,32,17,True,False,SANLC
+gpt-oss-20b,TAKEOFF,20b-ab3-2 | seq 0,21,1.0,0.5,0.5,0.5,0.5,1.0,1.0,1.0,1.0,0.7777777777777778,75,N/A,,,,,,True,,notebook,58,17,True,True,SALC
+gpt-oss-20b,WP+ALT,20b-ab3-2 | seq 1,22,0.8782608695652174,0.9565217391304348,0.5729166666666666,0.5217391304347826,0.9565217391304348,0.8416666666666667,1.0,0.9239130434782609,0.9565217391304348,0.8453401771336554,934,N/A,,,,,,True,,notebook,796,138,True,True,SALC
+gpt-oss-20b,WP+ALT,20b-ab3-2 | seq 2,23,1.0,0.5714285714285714,0.8571428571428571,0.8571428571428571,0.8571428571428571,0.9411764705882353,1.0,1.0,0.9583333333333334,0.8935963274198568,276,N/A,,,,,,True,,notebook,246,30,True,True,SALC
+gpt-oss-20b,WP+SPEED,20b-ab3-2 | seq 4,24,1.0,1.0,0.875,0.8571428571428571,1.0,0.8333333333333334,1.0,1.0,1.0,0.9517195767195766,279,N/A,,,,,,True,,notebook,266,13,True,True,SALC
+gpt-oss-20b,RTL,20b-ab3-2 | seq 5,25,0.8648648648648649,1.0,0.875,0.875,1.0,0.6341463414634146,1.0,1.0,1.0,0.9165568007031423,284,N/A,,,,,,True,,notebook,256,28,True,True,SALC
+gpt-oss-20b,LAND,20b-ab3-2 | seq 6,26,1.0,0.15,1.0,1.0,0.25,,1.0,1.0,1.0,0.8,140,N/A,,,,,,True,,notebook,111,29,True,False,SANLC
+nemotron-nano,TAKEOFF,nemo-nano-ab3 | seq 0,27,0.26666666666666666,0.5333333333333333,1.0,1.0,0.6666666666666666,1.0,1.0,1.0,0.75,0.8018518518518518,108,N/A,,,,,,True,,notebook,83,25,True,False,SANLC
+nemotron-nano,WP+ALT,nemo-nano-ab3 | seq 1,28,0.96,0.6,0.6,0.6,0.8,0.42857142857142855,1.0,1.0,1.0,0.7765079365079365,189,N/A,,,,,,True,,notebook,150,39,True,False,SANLC
+nemotron-nano,WP+ALT,nemo-nano-ab3 | seq 2,29,1.0,0.75,0.75,0.75,1.0,0.6,1.0,1.0,1.0,0.8722222222222222,145,N/A,,,,,,True,,notebook,130,15,True,True,SALC
+nemotron-nano,WP+SPEED,nemo-nano-ab3 | seq 4,30,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.7777777777777778,40,N/A,,,,,,True,,notebook,32,8,True,False,SANLC
+nemotron-nano,RTL,nemo-nano-ab3 | seq 5,31,0.5333333333333333,1.0,0.3333333333333333,0.3333333333333333,1.0,0.3333333333333333,1.0,1.0,1.0,0.7259259259259259,120,N/A,,,,,,True,,notebook,87,33,True,False,SANLC
+nemotron-nano,LAND,nemo-nano-ab3 | seq 6,32,0.7333333333333333,0.13333333333333333,1.0,1.0,0.0,,1.0,1.0,0.9166666666666666,0.7229166666666668,105,N/A,,,,,,True,,notebook,75,30,True,False,SANLC
+gpt-oss-120b,TAKEOFF,120b-ab3-2 | seq 0,33,1.0,1.0,1.0,1.0,0.8,,1.0,1.0,0.75,0.94375,41,N/A,,,,,,True,,notebook,39,2,False,True,FALC
+gpt-oss-120b,WP+ALT,120b-ab3-2 | seq 1,34,1.0,0.9629629629629629,0.8333333333333334,0.8333333333333334,1.0,1.0,1.0,1.0,1.0,0.9588477366255144,223,N/A,,,,,,True,,notebook,214,9,True,True,SALC
+gpt-oss-120b,WP+ALT,120b-ab3-2 | seq 2,35,1.0,0.6,0.5,0.5,0.625,1.0,1.0,1.0,0.625,0.7611111111111111,74,N/A,,,,,,True,,notebook,56,18,True,True,SALC
+gpt-oss-120b,WP+SPEED,120b-ab3-2 | seq 4,36,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.7777777777777778,44,N/A,,,,,,True,,notebook,36,8,True,False,SANLC
+gpt-oss-120b,RTL,120b-ab3-2 | seq 5,37,1.0,1.0,0.5862068965517241,0.5,1.0,0.6486486486486487,1.0,0.875,1.0,0.8455395050222637,262,N/A,,,,,,True,,notebook,222,40,True,True,SALC
+gpt-oss-120b,LAND,120b-ab3-2 | seq 6,38,1.0,1.0,,,0.0,1.0,1.0,,,0.8,12,N/A,,,,,,True,,notebook,8,4,True,False,SANLC
+nemotron-super,TAKEOFF,nemo-super-ab3-2--fail | seq 0,39,1.0,1.0,1.0,1.0,1.0,,1.0,1.0,1.0,1.0,44,N/A,,,,,,True,,notebook,44,0,False,True,FALC
+nemotron-super,WP+ALT,nemo-super-ab3-2--fail | seq 1,40,1.0,0.0,1.0,1.0,0.25,1.0,1.0,0.0,1.0,0.6944444444444444,49,N/A,,,,,,True,,notebook,37,12,False,False,FANLC
+nemotron-super,TAKEOFF,nemo-super-ab3-3 | seq 0,41,1.0,0.05,,,0.1875,,1.0,1.0,1.0,0.7062499999999999,77,N/A,,,,,,True,,notebook,45,32,True,False,SANLC
+nemotron-super,WP+ALT,nemo-super-ab3-3 | seq 1,42,1.0,0.725,1.0,1.0,0.84375,0.9714285714285714,1.0,1.0,1.0,0.9489087301587301,324,N/A,,,,,,True,,notebook,307,17,True,True,SALC
+nemotron-super,WP+ALT,nemo-super-ab3-3 | seq 2,43,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.875,1.0,0.9861111111111112,224,N/A,,,,,,True,,notebook,222,2,True,True,SALC
+nemotron-super,WP+SPEED,nemo-super-ab3-3 | seq 4,44,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.9583333333333334,0.9953703703703705,232,N/A,,,,,,True,,notebook,231,1,True,True,SALC
+nemotron-super,RTL,nemo-super-ab3-3 | seq 5,45,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.95,0.9944444444444444,506,N/A,,,,,,True,,notebook,504,2,True,True,SALC
+nemotron-super,LAND,nemo-super-ab3-3 | seq 6,46,1.0,0.5333333333333333,1.0,1.0,0.6,1.0,1.0,1.0,1.0,0.9037037037037037,176,N/A,,,,,,True,,notebook,154,22,True,True,SALC
+gemma4,TAKEOFF,gemma-ab3-2-failed | seq 0,47,,0.23333333333333334,,,0.2916666666666667,,,,,0.2625,54,N/A,,,,,,True,,notebook,14,40,False,False,FANLC
+nemotron-nano,TAKEOFF,nemo-super-ab3 -4 | seq 0,48,1.0,0.03333333333333333,1.0,1.0,0.6666666666666666,,1.0,1.0,1.0,0.8374999999999999,210,N/A,,,,,,True,,notebook,173,37,True,False,SANLC
+nemotron-nano,WP+ALT,nemo-super-ab3 -4 | seq 1,49,1.0,1.0,0.8571428571428571,0.8571428571428571,1.0,1.0,1.0,1.0,0.6785714285714286,0.9325396825396824,274,N/A,,,,,,True,,notebook,257,17,True,True,SALC
+nemotron-nano,WP+ALT,nemo-super-ab3 -4 | seq 2,50,1.0,0.875,0.84375,0.84375,0.875,1.0,1.0,1.0,0.96875,0.9340277777777778,317,N/A,,,,,,True,,notebook,297,20,True,True,SALC
+nemotron-nano,WP+SPEED,nemo-super-ab3 -4 | seq 4,51,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,239,N/A,,,,,,True,,notebook,239,0,True,True,SALC
+nemotron-nano,RTL,nemo-super-ab3 -4 | seq 5,52,1.0,1.0,0.9166666666666666,0.9166666666666666,1.0,0.9491525423728814,1.0,1.0,1.0,0.9758317639673572,479,N/A,,,,,,True,,notebook,468,11,True,True,SALC
+nemotron-nano,LAND,nemo-super-ab3 -4 | seq 6,53,1.0,0.7411764705882353,1.0,1.0,1.0,,1.0,1.0,0.8529411764705882,0.9492647058823529,595,N/A,,,,,,True,,notebook,563,32,True,True,SALC
+gemma4,TAKEOFF,gemma ab3-3 | seq 0,54,,0.23333333333333334,,,0.2916666666666667,,,,,0.2625,54,N/A,,,,,,True,,notebook,14,40,False,False,FANLC
+gemma4,TAKEOFF,gemma ab3-4-fail | seq 0,55,,0.025,,,0.15625,,,,,0.090625,72,N/A,,,,,,True,,notebook,6,66,False,False,FANLC
+gemma4,WP+ALT,gemma ab3-4-fail | seq 1,56,0.5951219512195122,0.8544715447154472,0.5050813008130082,0.2530487804878049,0.9146341463414634,0.4,0.9471544715447154,0.9745934959349594,0.948170731707317,0.710252935862692,9715,N/A,,,,,,True,,notebook,6928,2787,False,False,FANLC

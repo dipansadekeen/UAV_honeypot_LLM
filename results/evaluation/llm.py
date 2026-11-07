@@ -11,13 +11,14 @@ from .telemetry import errors as telemetry_errors, component_scores
 from .completion import complete as completion
 from .heartbeat import heartbeat_checks as hb_checks, arm_telemetry_checks as ground_checks
 
-def evaluate_llm(path, out, cfg=None):
+def evaluate_llm(path, out, cfg=None, cases=None):
+    """Score cases from `path`; `cases` = (incidents, keep, manifest) overrides extraction."""
     cfg = cfg or Settings()
     OUT = Path(out)
     OUT.mkdir(parents=True, exist_ok=True)
     write_provenance(path, OUT, cfg)
     COMP, OPS, TOL = (COMPONENTS, OPERATIONS, cfg.tolerances)
-    INC, keep, manifest = extract_llm_cases(path, cfg.max_cases)
+    INC, keep, manifest = cases if cases is not None else extract_llm_cases(path, cfg.max_cases)
     errors = partial(telemetry_errors, cfg=cfg)
     complete = partial(completion, cfg=cfg)
     heartbeat_checks = partial(hb_checks, cfg=cfg)

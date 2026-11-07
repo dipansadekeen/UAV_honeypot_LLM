@@ -1,0 +1,58 @@
+Model,Operation,Case,Order,Setting,Run,mission_run_id,Failed_Run,Telemetry_Rows,Case ID
+gemma4,TAKEOFF,gemma-ab3-failed | seq 0,8713.0,ab3,gemma-ab3-failed,mission_20261028_181552,True,10,0
+gemma4,WP+ALT,gemma-ab3-failed | seq 1,8713.01,ab3,gemma-ab3-failed,mission_20261028_181552,True,120,1
+gemma4,WP+ALT,gemma-ab3-failed | seq 2,8713.02,ab3,gemma-ab3-failed,mission_20261028_181552,True,75,2
+gpt-oss-120b,TAKEOFF,120b-ab3 | seq 0,8921.0,ab3,120b-ab3,mission_20261028_204038,False,10,3
+gpt-oss-120b,WP+ALT,120b-ab3 | seq 1,8921.01,ab3,120b-ab3,mission_20261028_204038,False,55,4
+gpt-oss-120b,WP+ALT,120b-ab3 | seq 2,8921.02,ab3,120b-ab3,mission_20261028_204038,False,10,5
+gpt-oss-120b,WP+SPEED,120b-ab3 | seq 4,8921.04,ab3,120b-ab3,mission_20261028_204038,False,25,6
+gpt-oss-120b,RTL,120b-ab3 | seq 5,8921.05,ab3,120b-ab3,mission_20261028_204038,False,15,7
+gpt-oss-120b,LAND,120b-ab3 | seq 6,8921.06,ab3,120b-ab3,mission_20261028_204038,False,10,8
+nemotron-super,TAKEOFF,nemo-super-ab3 | seq 0,9059.0,ab3,nemo-super-ab3,mission_20261028_215506,False,10,9
+nemotron-super,WP+ALT,nemo-super-ab3 | seq 1,9059.01,ab3,nemo-super-ab3,mission_20261028_215506,False,65,10
+nemotron-super,WP+ALT,nemo-super-ab3 | seq 2,9059.02,ab3,nemo-super-ab3,mission_20261028_215506,False,40,11
+nemotron-super,WP+SPEED,nemo-super-ab3 | seq 4,9059.04,ab3,nemo-super-ab3,mission_20261028_215506,False,30,12
+nemotron-super,RTL,nemo-super-ab3 | seq 5,9059.05,ab3,nemo-super-ab3,mission_20261028_215506,False,75,13
+nemotron-super,LAND,nemo-super-ab3 | seq 6,9059.06,ab3,nemo-super-ab3,mission_20261028_215506,False,20,14
+gpt-oss-20b,TAKEOFF,20b-ab3 | seq 0,9312.0,ab3,20b-ab3,mission_20261029_125807,False,20,15
+gpt-oss-20b,WP+ALT,20b-ab3 | seq 1,9312.01,ab3,20b-ab3,mission_20261029_125807,False,55,16
+gpt-oss-20b,WP+ALT,20b-ab3 | seq 2,9312.02,ab3,20b-ab3,mission_20261029_125807,False,15,17
+gpt-oss-20b,WP+SPEED,20b-ab3 | seq 4,9312.04,ab3,20b-ab3,mission_20261029_125807,False,30,18
+gpt-oss-20b,RTL,20b-ab3 | seq 5,9312.05,ab3,20b-ab3,mission_20261029_125807,False,85,19
+gpt-oss-20b,LAND,20b-ab3 | seq 6,9312.06,ab3,20b-ab3,mission_20261029_125807,False,10,20
+gpt-oss-20b,TAKEOFF,20b-ab3-2 | seq 0,9534.0,ab3,20b-ab3-2,mission_20261031_010650,False,10,21
+gpt-oss-20b,WP+ALT,20b-ab3-2 | seq 1,9534.01,ab3,20b-ab3-2,mission_20261031_010650,False,120,22
+gpt-oss-20b,WP+ALT,20b-ab3-2 | seq 2,9534.02,ab3,20b-ab3-2,mission_20261031_010650,False,40,23
+gpt-oss-20b,WP+SPEED,20b-ab3-2 | seq 4,9534.04,ab3,20b-ab3-2,mission_20261031_010650,False,40,24
+gpt-oss-20b,RTL,20b-ab3-2 | seq 5,9534.05,ab3,20b-ab3-2,mission_20261031_010650,False,60,25
+gpt-oss-20b,LAND,20b-ab3-2 | seq 6,9534.06,ab3,20b-ab3-2,mission_20261031_010650,False,30,26
+nemotron-nano,TAKEOFF,nemo-nano-ab3 | seq 0,9846.0,ab3,nemo-nano-ab3,mission_20261031_015747,False,15,27
+nemotron-nano,WP+ALT,nemo-nano-ab3 | seq 1,9846.01,ab3,nemo-nano-ab3,mission_20261031_015747,False,25,28
+nemotron-nano,WP+ALT,nemo-nano-ab3 | seq 2,9846.02,ab3,nemo-nano-ab3,mission_20261031_015747,False,20,29
+nemotron-nano,WP+SPEED,nemo-nano-ab3 | seq 4,9846.04,ab3,nemo-nano-ab3,mission_20261031_015747,False,5,30
+nemotron-nano,RTL,nemo-nano-ab3 | seq 5,9846.05,ab3,nemo-nano-ab3,mission_20261031_015747,False,15,31
+nemotron-nano,LAND,nemo-nano-ab3 | seq 6,9846.06,ab3,nemo-nano-ab3,mission_20261031_015747,False,15,32
+gpt-oss-120b,TAKEOFF,120b-ab3-2 | seq 0,9958.0,ab3,120b-ab3-2,mission_20261031_171611,False,10,33
+gpt-oss-120b,WP+ALT,120b-ab3-2 | seq 1,9958.01,ab3,120b-ab3-2,mission_20261031_171611,False,35,34
+gpt-oss-120b,WP+ALT,120b-ab3-2 | seq 2,9958.02,ab3,120b-ab3-2,mission_20261031_171611,False,10,35
+gpt-oss-120b,WP+SPEED,120b-ab3-2 | seq 4,9958.04,ab3,120b-ab3-2,mission_20261031_171611,False,10,36
+gpt-oss-120b,RTL,120b-ab3-2 | seq 5,9958.05,ab3,120b-ab3-2,mission_20261031_171611,False,40,37
+gpt-oss-120b,LAND,120b-ab3-2 | seq 6,9958.06,ab3,120b-ab3-2,mission_20261031_171611,False,5,38
+nemotron-super,TAKEOFF,nemo-super-ab3-2--fail | seq 0,10080.0,ab3,nemo-super-ab3-2--fail,mission_20261103_172829,True,10,39
+nemotron-super,WP+ALT,nemo-super-ab3-2--fail | seq 1,10080.01,ab3,nemo-super-ab3-2--fail,mission_20261103_172829,True,10,40
+nemotron-super,TAKEOFF,nemo-super-ab3-3 | seq 0,10102.0,ab3,nemo-super-ab3-3,mission_20261031_160953,False,20,41
+nemotron-super,WP+ALT,nemo-super-ab3-3 | seq 1,10102.01,ab3,nemo-super-ab3-3,mission_20261031_160953,False,60,42
+nemotron-super,WP+ALT,nemo-super-ab3-3 | seq 2,10102.02,ab3,nemo-super-ab3-3,mission_20261031_160953,False,40,43
+nemotron-super,WP+SPEED,nemo-super-ab3-3 | seq 4,10102.04,ab3,nemo-super-ab3-3,mission_20261031_160953,False,35,44
+nemotron-super,RTL,nemo-super-ab3-3 | seq 5,10102.05,ab3,nemo-super-ab3-3,mission_20261031_160953,False,85,45
+nemotron-super,LAND,nemo-super-ab3-3 | seq 6,10102.06,ab3,nemo-super-ab3-3,mission_20261031_160953,False,50,46
+gemma4,TAKEOFF,gemma-ab3-2-failed | seq 0,10704.0,ab3,gemma-ab3-2-failed,mission_20261103_182818,True,30,47
+nemotron-nano,TAKEOFF,nemo-super-ab3 -4 | seq 0,10736.0,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,30,48
+nemotron-nano,WP+ALT,nemo-super-ab3 -4 | seq 1,10736.01,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,35,49
+nemotron-nano,WP+ALT,nemo-super-ab3 -4 | seq 2,10736.02,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,40,50
+nemotron-nano,WP+SPEED,nemo-super-ab3 -4 | seq 4,10736.04,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,30,51
+nemotron-nano,RTL,nemo-super-ab3 -4 | seq 5,10736.05,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,60,52
+nemotron-nano,LAND,nemo-super-ab3 -4 | seq 6,10736.06,ab3,nemo-super-ab3 -4,mission_20261103_185654,False,85,53
+gemma4,TAKEOFF,gemma ab3-3 | seq 0,11029.0,ab3,gemma ab3-3,mission_20261103_204333,False,30,54
+gemma4,TAKEOFF,gemma ab3-4-fail | seq 0,11061.0,ab3,gemma ab3-4-fail,mission_20261103_204437,True,40,55
+gemma4,WP+ALT,gemma ab3-4-fail | seq 1,11061.01,ab3,gemma ab3-4-fail,mission_20261103_204437,True,1230,56

@@ -1,0 +1,45 @@
+setting,model,model_tag,title,marker_line,mission_run_id,failed,rows,last_seq,selected,reason,landed
+full,gpt-oss-120b,gpt-oss:120b-cloud,120b-full,3,mission_20261028_205704,False,200,6,True,successful run 1,True
+full,nemotron-super,nemotron-3-super:cloud,nemo-super-full,205,mission_20261028_211114,False,360,6,True,successful run 1,True
+full,gpt-oss-20b,gpt-oss:20b,20b-full,568,mission_20261029_174444,False,275,6,True,successful run 1,True
+full,gpt-oss-20b,gpt-oss:20b,20b-full-2,845,mission_20261029_184325,False,350,6,True,successful run 2,True
+full,gpt-oss-20b,gpt-oss:20b,20b-full-3,1197,mission_20261030_175714,False,270,6,False,after the first 2 successful runs,
+full,gemma4,gemma4:31b-cloud,gemma-full,1470,mission_20261030_195422,False,405,6,True,successful run 1,True
+full,gpt-oss-120b,gpt-oss:120b-cloud,120b-full-2,1877,mission_20261030_200703,False,240,6,True,successful run 2,True
+full,nemotron-super,nemotron-3-super:cloud,nemo-super-full-2,2119,mission_20261030_203951,False,305,6,True,successful run 2,True
+full,nemotron-super,nemotron-3-super:cloud,nemo-super-full-3,2426,mission_20261030_211731,False,315,6,False,after the first 2 successful runs,
+full,nemotron-nano,nemotron-3-nano:30b-cloud,nemo-nano-full-1--jumped_last_wp,2743,mission_20261101_160449,False,150,6,True,successful run 1,True
+full,nemotron-nano,nemotron-3-nano:30b-cloud,nemo-nano-full-2,2895,mission_20261101_164830,False,115,6,True,successful run 2,True
+ab1,nemotron-nano,nemotron-3-nano:30b-cloud,nano-ab1,3015,mission_20261028_140209,False,475,6,True,successful run 1,True
+ab1,gemma4,gemma4:31b-cloud,gemma-ab1,3492,mission_20261028_175307,False,665,6,True,successful run 1,True
+ab1,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab1,4160,mission_20261028_203011,False,200,6,True,successful run 1,True
+ab1,nemotron-super,nemotron-3-super:cloud,nemo-super-ab1,4363,mission_20261028_223900,False,250,6,True,successful run 1,True
+ab1,gpt-oss-20b,gpt-oss:20b,20b-ab1,4616,mission_20261029_145745,False,420,6,True,successful run 1,True
+ab1,nemotron-super,nemotron-3-super:cloud,nemo-super-ab1-2,5038,mission_20261031_173446,False,295,6,True,successful run 2,True
+ab1,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab1-2,5335,mission_20261031_182458,False,200,6,True,successful run 2,True
+ab2,nemotron-super,nemotron-3-super:cloud,nemo-super-ab2-3-fail,5538,mission_20261028_231315,True,240,5,True,failed run before the 2nd success,False
+ab2,nemotron-super,nemotron-3-super:cloud,-nemo-super-ab2-4-good,5780,mission_20261028_235624,False,305,6,True,successful run 1,True
+ab2,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab2-fail,6088,mission_20261029_004130,True,135,5,True,failed run before the 2nd success,False
+ab2,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab2-2,6226,mission_20261029_004841,False,110,3,True,successful run 1,False
+ab2,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab2-3,6339,mission_20261029_010858,False,240,6,True,successful run 2,True
+ab2,nemotron-nano,nemotron-3-nano:30b-cloud,nemo-nano-ab2--vbad,6583,mission_20261029_094808,False,375,6,True,successful run 1,True
+ab2,gemma4,gemma4:31b-cloud,gemma-ab2-scattered,6961,mission_20261029_113710,False,620,6,True,successful run 1,True
+ab2,gpt-oss-20b,gpt-oss:20b,20b-ab2,7583,mission_20261029_121055,False,290,6,True,successful run 1,True
+ab2,nemotron-super,nemotron-3-super:cloud,nemo-super-ab2-5-fails,7875,mission_20261031_183553,True,240,2,True,failed run before the 2nd success,False
+ab2,nemotron-super,nemotron-3-super:cloud,nemo-super-ab2-6,8117,mission_20261031_190212,False,345,6,True,successful run 2,True
+ab2,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab2-4,8465,mission_20261031_200008,False,245,6,False,after the first 2 successful runs,
+ab3,gemma4,gemma4:31b-cloud,gemma-ab3-failed,8713,mission_20261028_181552,True,205,2,True,failed run before the 2nd success,False
+ab3,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab3,8921,mission_20261028_204038,False,135,6,True,successful run 1,True
+ab3,nemotron-super,nemotron-3-super:cloud,nemo-super-ab3,9059,mission_20261028_215506,False,250,6,True,successful run 1,True
+ab3,gpt-oss-20b,gpt-oss:20b,20b-ab3,9312,mission_20261029_125807,False,220,6,True,successful run 1,True
+ab3,gpt-oss-20b,gpt-oss:20b,20b-ab3-2,9534,mission_20261031_010650,False,310,6,True,successful run 2,True
+ab3,nemotron-nano,nemotron-3-nano:30b,nemo-nano-ab3,9846,mission_20261031_015747,False,105,6,True,successful run 1,True
+ab3,gpt-oss-120b,gpt-oss:120b-cloud,120b-ab3-2,9958,mission_20261031_171611,False,120,6,True,successful run 2,True
+ab3,nemotron-super,nemotron-3-super:cloud,nemo-super-ab3-2--fail,10080,mission_20261103_172829,True,20,1,True,failed run before the 2nd success,False
+ab3,nemotron-super,nemotron-3-super:cloud,nemo-super-ab3-3,10102,mission_20261031_160953,False,295,6,True,successful run 2,True
+ab3,nemotron-super,nemotron-3-super:cloud,nemo-super-ab3-2--fail,10400,mission_20261103_172829,True,20,1,False,exact duplicate of an earlier section,
+ab3,nemotron-super,nemotron-3-super:cloud,nemo-super-ab3-3,10422,mission_20261103_173411,False,280,6,False,after the first 2 successful runs,
+ab3,gemma4,gemma4:31b-cloud,gemma-ab3-2-failed,10704,mission_20261103_182818,True,30,0,True,failed run before the 2nd success,False
+ab3,nemotron-nano,nemotron-3-nano:30b-cloud,nemo-super-ab3 -4,10736,mission_20261103_185654,False,290,6,True,successful run 2,True
+ab3,gemma4,gemma4:31b-cloud,gemma ab3-3,11029,mission_20261103_204333,False,30,0,True,successful run 1,False
+ab3,gemma4,gemma4:31b-cloud,gemma ab3-4-fail,11061,mission_20261103_204437,True,1270,1,True,failed run before the 2nd success,False

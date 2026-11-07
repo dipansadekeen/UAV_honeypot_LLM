@@ -36,8 +36,9 @@ example run is already included there.
 | `scripts/` | Command-line entry points |
 | `tests/` | Numerical parity and boundary-condition checks |
 | `efsm/` | PX4 SITL ACK/heartbeat ground truth for the EFSM and a checker (`efsm/README.md`) |
+| `ablation/` | EFSM ablation (ten command sequences with and without the EFSM) and few-shot example ablation (`ablation/README.md`) |
 | `test_harness/` | Deception-test mission plan and a GCS dashboard for driving the honeypot (`test_harness/README.md`) |
-| `data/` | The two supplied CSV inputs, copied without modification |
+| `data/` | The supplied CSV inputs, copied without modification (`ablation_dataset.csv` is the few-shot ablation) |
 | `reference/` | Results captured independently by executing the original notebook cells |
 | `results/notebook/` | Verified example results and generated figures |
 | `docs/` | Methodology, figure mapping, and reproducibility notes |
@@ -50,6 +51,7 @@ python scripts/evaluate_hitl.py
 python scripts/analyze_latency.py
 python scripts/plot_missions.py
 python scripts/plot_velocity.py
+python scripts/evaluate_ablation.py
 ```
 
 Each command accepts `--input` and `--out`; use `--help` for its other options.
